@@ -7,6 +7,6 @@ export function buildResolvers({paths: {src}}: BuildOptions): ResolveOptions {
         preferAbsolute: true,
         modules: [src, 'node_modules'],
         mainFiles: ['index'],
-        alias: {}
+        alias: {'@mui/material': '@mui/joy'}
     }
 }

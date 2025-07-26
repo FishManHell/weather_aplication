@@ -16,6 +16,10 @@ declare module "*.svg" {
     export default SVG;
 }
 
+declare type DeepPartial<T> = T extends object ? {
+    [P in keyof T]?: DeepPartial<T[P]>;
+} : T;
+
 declare const __IS_DEV__: boolean;
 declare const __API_URL__: string;
 declare const __PROJECT__: string

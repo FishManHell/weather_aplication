@@ -24,7 +24,9 @@ export const Navbar = ({className}: NavbarProps) => {
         dispatch(unitSwitcherActions.setUnitType(newUnit));
     }
 
-    const homeBaseQuery = new URLSearchParams({q: "Dnepr", appid: '9fea30979d4d31a3b48870990d4dfc23', units: "metric"}).toString();
+    console.log(process.env.REACT_APP_API_KEY, "process.env")
+
+    const homeBaseQuery = new URLSearchParams({q: "Dnepr", appid: "9fea30979d4d31a3b48870990d4dfc23", units: "metric"}).toString();
 
     const fetchCurrentDayWeather = async () => {
         try {
@@ -35,11 +37,6 @@ export const Navbar = ({className}: NavbarProps) => {
             throw new Error(error);
         }
     }
-
-    // fetchCurrentDayWeather()
-    navigator.geolocation.getCurrentPosition((pos) => {
-        console.log(pos, "navigator.geolocation")
-    }, null)
 
     return (
         <div className={classNames(cls["navbar"], {}, [className])}>

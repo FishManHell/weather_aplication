@@ -3,6 +3,8 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import {WebpackPluginInstance, HotModuleReplacementPlugin, ProgressPlugin, DefinePlugin} from "webpack";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import Dotenv from 'dotenv-webpack';
+
 
 export const buildPlugins = (options: BuildOptions): WebpackPluginInstance[] => {
     const {isDev, project, paths: {html: template}} = options
@@ -21,10 +23,15 @@ export const buildPlugins = (options: BuildOptions): WebpackPluginInstance[] => 
             filename: 'css/[name].[contenthash:8].css',
             chunkFilename: 'css/[name].[contenthash:8].css',
         }),
+        new Dotenv({
+            path: "./.env"
+        }),
         new DefinePlugin({
             __IS_DEV__: JSON.stringify(isDev),
-            __PROJECT__: JSON.stringify(project)
+            __PROJECT__: JSON.stringify(project),
         }),
+
+
     ]
 
     if (isDev) plugins.push(...devPlugins)

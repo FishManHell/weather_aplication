@@ -17,5 +17,5 @@ export interface BuildOptions {
     paths: BuildPaths;
     isDev: boolean;
     port: number;
-    project: string
+    project: string;
 }

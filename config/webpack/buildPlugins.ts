@@ -29,6 +29,7 @@ export const buildPlugins = (options: BuildOptions): WebpackPluginInstance[] => 
         new DefinePlugin({
             __IS_DEV__: JSON.stringify(isDev),
             __PROJECT__: JSON.stringify(project),
+            'process.env.REACT_APP_API_KEY': JSON.stringify(process.env.REACT_APP_API_KEY),
         }),
 
 

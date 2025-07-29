@@ -9,11 +9,21 @@ import Dotenv from 'dotenv-webpack';
 export const buildPlugins = (options: BuildOptions): WebpackPluginInstance[] => {
     const {isDev, project, paths: {html: template}} = options
 
+    const definePluginVariables: Record<string, string> = {
+        __IS_DEV__: JSON.stringify(isDev),
+        __PROJECT__: JSON.stringify(project)
+    }
+
+    if (!isDev) definePluginVariables['process.env.REACT_APP_API_KEY'] = JSON.stringify(process.env.REACT_APP_API_KEY)
+
     const devPlugins = [
         new ReactRefreshWebpackPlugin({
             overlay: false, // leave it here for now
         }),
-        new HotModuleReplacementPlugin()
+        new HotModuleReplacementPlugin(),
+        new Dotenv({
+            path: "./.env"
+        }),
     ]
 
     const plugins = [
@@ -23,19 +33,11 @@ export const buildPlugins = (options: BuildOptions): WebpackPluginInstance[] => 
             filename: 'css/[name].[contenthash:8].css',
             chunkFilename: 'css/[name].[contenthash:8].css',
         }),
-        new Dotenv({
-            path: "./.env"
-        }),
-        new DefinePlugin({
-            __IS_DEV__: JSON.stringify(isDev),
-            __PROJECT__: JSON.stringify(project),
-            'process.env.REACT_APP_API_KEY': JSON.stringify(process.env.REACT_APP_API_KEY),
-        }),
 
-
+        new DefinePlugin(definePluginVariables),
     ]
 
-    if (isDev) plugins.push(...devPlugins)
+    if (isDev) plugins.push(...devPlugins);
 
     return plugins
 }

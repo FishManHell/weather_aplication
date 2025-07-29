@@ -8,14 +8,19 @@ import {useAppDispatch} from "shared/lib/hooks/useAppDispatch/useAppDispatch";
 import {Switch} from "@mui/joy";
 import {$api} from "shared/api/api";
 import axios from "axios";
+import {useGetGeolocation} from "shared/lib/hooks/useGetGeolocation/useGetGeolocation";
 
 interface NavbarProps {
     className?: string;
 }
 
+const REACT_APP_API_KEY: string = process.env.REACT_APP_API_KEY || ''
+
 export const Navbar = ({className}: NavbarProps) => {
     const dispatch = useAppDispatch()
     const unit = useSelector(selectUnitSwitcherUnit);
+
+    const positions = useGetGeolocation()
 
     const isCelsius = unit === "°C"
 
@@ -24,20 +29,24 @@ export const Navbar = ({className}: NavbarProps) => {
         dispatch(unitSwitcherActions.setUnitType(newUnit));
     }
 
-    console.log("ENV CHECK", {
-        REACT_APP_API_KEY: process.env.REACT_APP_API_KEY,
-    });
-    const homeBaseQuery = new URLSearchParams({q: "Dnepr", appid: "9fea30979d4d31a3b48870990d4dfc23", units: "metric"}).toString();
+
+    const homeBaseQuery = new URLSearchParams({q: "Dnepr", appid: REACT_APP_API_KEY, units: "metric"}).toString();
+    const homeBaseQueryTwo = new URLSearchParams({lat: `${positions.lat}`, lon: `${positions.long}`, appid: REACT_APP_API_KEY, units: "metric"}).toString();
 
     const fetchCurrentDayWeather = async () => {
+        const str = `https://api.openweathermap.org/data/2.5/weather?`
+        console.log(str, "str")
         try {
-            const response = await axios.get('https://api.openweathermap.org/data/2.5/weather?q=Dnepr&appid=8515c8a9cf81944cb4ba0e86c5dd5a7d&units=metric')
+            const weatherApi = $api(str)
+            const response = await weatherApi.get(homeBaseQueryTwo)
             return response
         } catch (error) {
             // @ts-ignore
             throw new Error(error);
         }
     }
+
+    fetchCurrentDayWeather()
 
     return (
         <div className={classNames(cls["navbar"], {}, [className])}>

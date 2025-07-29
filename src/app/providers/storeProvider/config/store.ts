@@ -16,16 +16,16 @@ export function createReduxStore(initialState: StateSchema) {
         }
     })
 
-    const extraArgument: ThunkExtraArg = {api: $api}
+    // const extraArgument: ThunkExtraArg = {api: $api}
 
     return configureStore({
         reducer: rootReducer,
         devTools: __IS_DEV__,
         preloadedState: initialState,
         middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-            thunk: {
-                extraArgument
-            },
+            // thunk: {
+                // extraArgument
+            // },
         }),
     })
 }

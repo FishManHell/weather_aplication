@@ -5,7 +5,7 @@ export interface Positions {
     lon: number;
 }
 
-const DEFAULT_POSITIONS: Positions = { lat: 48.4647, lon: 35.0462}
+const DEFAULT_POSITIONS: Positions = { lat: 31.6693, lon: 34.5715}
 
 export function useGetGeolocation() {
     const [positions, setPositions] = useState<Positions | null>(null);

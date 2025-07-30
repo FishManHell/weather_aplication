@@ -2,7 +2,7 @@ import cls from "./ThemeSwitcher.module.scss"
 import classNames from "classnames"
 // import {Button} from "shared/ui/Button";
 import ThemeIcon from "shared/assets/icons/Theme.svg"
-import {useAppDispatch} from "shared/lib/hooks/useAppDispatch/useAppDispatch";
+import {useAppDispatch} from "shared/lib/hooks";
 import {themeSwitcherActions} from "../model/slice/themeSwitcherSlice";
 import {useEffect} from "react";
 import {useSelector} from "react-redux";

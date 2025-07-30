@@ -2,36 +2,44 @@ import {useEffect, useState} from "react";
 
 export interface Positions {
     lat: number;
-    long: number;
+    lon: number;
 }
 
-const DEFAULT_POSITIONS: Positions = { lat: 31.66926000, long: 34.57149000}
+const DEFAULT_POSITIONS: Positions = { lat: 48.4647, lon: 35.0462}
 
 export function useGetGeolocation() {
-    const [positions, setPositions] = useState<Positions>(DEFAULT_POSITIONS);
+    const [positions, setPositions] = useState<Positions | null>(null);
 
     useEffect(() => {
-       if (!navigator.geolocation) {
-           console.warn('Geolocation not supported, using default.');
-           setPositions(DEFAULT_POSITIONS);
-           return
-       }
+        let resolved = false;
 
-       navigator.geolocation.getCurrentPosition((pos) => {
-           setPositions({lat: pos.coords.latitude, long: pos.coords.longitude})
+        const resolveOnce = (newPos: Positions) => {
+            if (!resolved) {
+                resolved = true;
+                setPositions(newPos);
+            }
+        };
 
-       },  (err) => {
-           console.warn('geolocation error, fallback:', err);
-           setPositions(DEFAULT_POSITIONS);
-       },
-        {
-            enableHighAccuracy: true,
-                timeout: 10000,
-            maximumAge: 0,
+        if (!navigator.geolocation) {
+            console.error('Geolocation not supported, using default.');
+            resolveOnce(DEFAULT_POSITIONS)
+            return
         }
-       )
+
+        navigator.geolocation.getCurrentPosition((pos) => {
+            resolveOnce({lat: pos.coords.latitude, lon: pos.coords.longitude})
+        },  (err) => {
+            console.error('geolocation error, fallback:', err);
+            if (err.code === 1) {
+                resolveOnce(DEFAULT_POSITIONS)
+            }
+            return
+            }, {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            })
     }, []);
 
     return positions
-
 }

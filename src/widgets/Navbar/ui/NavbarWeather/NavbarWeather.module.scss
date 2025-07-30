@@ -1,0 +1,25 @@
+.navbar-weather {
+  display: flex;
+}
+
+.navbar-weather-header {
+  width: 67px;
+  height: 50px;
+
+  img {
+    width: 100%;
+  }
+}
+
+.navbar-weather-info {
+  h1 {
+    font-size: 69px;
+  }
+
+  .navbar-weather-info-date {
+    text-align: right;
+    span {
+      font-size: 19px;
+    }
+  }
+}

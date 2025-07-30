@@ -1,4 +1,4 @@
-import {Navbar} from "./types/navbar"
+import {Navbar} from "./types/navbarSchema"
 import {RoutePath} from "shared/config/routeConfig/routeConfig";
 
 export const NavbarItemsList: Navbar[] = [

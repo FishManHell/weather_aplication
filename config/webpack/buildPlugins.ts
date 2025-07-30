@@ -21,9 +21,7 @@ export const buildPlugins = (options: BuildOptions): WebpackPluginInstance[] => 
             overlay: false, // leave it here for now
         }),
         new HotModuleReplacementPlugin(),
-        new Dotenv({
-            path: "./.env"
-        }),
+        new Dotenv({path: "./.env"})
     ]
 
     const plugins = [

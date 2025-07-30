@@ -1,6 +1,6 @@
 import cls from "./NavbarItems.module.scss"
 import classNames from "classnames";
-import {NavbarItemsList} from "../../module/navbarItems";
+import {NavbarItemsList} from "entities/Navbar/model/navbarItems";
 import {NavbarItem} from "../NavbarItem/NavbarItem";
 
 interface NavbarItemsProps {

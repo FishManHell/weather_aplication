@@ -1,6 +1,6 @@
-import {unitSwitcherActions, unitSwitcherReducer} from "./model/slice/unitSwitcherSlice"
+import {unitSwitcherReducer} from "./model/slice/unitSwitcherSlice"
 import {UnitSwitcherSchema} from "./model/types/unitSwitcherSchema"
-import {selectUnitSwitcherUnit} from "./model/selectors/unitSwitcher"
+import {UnitSwitcher} from "./ui/UnitSwitcher"
 
 
-export {unitSwitcherActions, unitSwitcherReducer, UnitSwitcherSchema, selectUnitSwitcherUnit}
+export {unitSwitcherReducer, UnitSwitcherSchema, UnitSwitcher}

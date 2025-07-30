@@ -4,6 +4,7 @@ import {$api} from "shared/api/api";
 import {unitSwitcherReducer} from "shared/ui/UnitSwitcher";
 import {buildNestedReducer} from "../config/buildNestedReducer";
 import {themeSwitcherReducer} from "shared/ui/ThemeSwitcher";
+import {weatherApi} from "shared/api/weatherApi";
 
 export function createReduxStore(initialState: StateSchema) {
 
@@ -13,20 +14,23 @@ export function createReduxStore(initialState: StateSchema) {
                 unit: unitSwitcherReducer,
                 theme: themeSwitcherReducer
             }
-        }
+        },
+        [weatherApi.reducerPath]: weatherApi.reducer
     })
 
-    // const extraArgument: ThunkExtraArg = {api: $api}
+    const extraArgument: ThunkExtraArg = {api: $api}
 
     return configureStore({
         reducer: rootReducer,
         devTools: __IS_DEV__,
         preloadedState: initialState,
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-            // thunk: {
-                // extraArgument
-            // },
-        }),
+        middleware: (getDefaultMiddleware) => {
+            return getDefaultMiddleware({
+                thunk: {
+                    extraArgument
+                },
+            }).concat(weatherApi.middleware)
+        }
     })
 }
 

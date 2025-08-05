@@ -1,11 +1,9 @@
 import {AxiosInstance} from "axios";
 import {UnitSwitcherSchema} from "shared/ui/UnitSwitcher";
-import {ThemeSwitcherSchema} from "shared/ui/ThemeSwitcher";
 import {weatherApi} from "shared/api/weatherApi";
 
 interface SwitchersSchema {
     unit: UnitSwitcherSchema
-    theme: ThemeSwitcherSchema
 }
 
 interface UiSchema {

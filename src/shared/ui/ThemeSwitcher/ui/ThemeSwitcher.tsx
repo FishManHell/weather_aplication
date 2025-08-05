@@ -1,35 +1,27 @@
 import cls from "./ThemeSwitcher.module.scss"
 import classNames from "classnames"
-// import {Button} from "shared/ui/Button";
 import ThemeIcon from "shared/assets/icons/Theme.svg"
-import {useAppDispatch} from "shared/lib/hooks";
-import {themeSwitcherActions} from "../model/slice/themeSwitcherSlice";
-import {useEffect} from "react";
-import {useSelector} from "react-redux";
-import {selectThemeSwitcherTheme} from "../model/selectors/themeSwitcher";
+import {IconButton} from "@mui/joy";
+import { useColorScheme } from '@mui/joy/styles';
+import {memo} from "react";
 
 interface ThemeSwitcherProps {
     className?: string;
 }
 
-export const ThemeSwitcher = (props: ThemeSwitcherProps) => {
+export const ThemeSwitcher = memo((props: ThemeSwitcherProps) => {
     const {className} = props;
-    const dispatch = useAppDispatch();
+    const {mode, setMode} = useColorScheme();
 
-    const theme = useSelector(selectThemeSwitcherTheme);
-
-    useEffect(() => {
-        if (!document.body.className.includes(theme)) {
-            document.body.className = theme;
-        }
-    }, [theme]);
+    const onToggle = () => setMode(mode === 'dark' ? 'light' : 'dark')
 
     return (
-        <button
+        <IconButton
             className={classNames(cls["theme-switcher"], className)}
-            onClick={() => dispatch(themeSwitcherActions.toggleTheme())}
+            onClick={onToggle}
+            sx={{"&:hover": {"backgroundColor": 'transparent'}}}
         >
             <ThemeIcon/>
-        </button>
+        </IconButton>
     );
-};
+});

@@ -3,6 +3,7 @@ import classNames from "classnames";
 import {NavbarItems} from "entities/Navbar";
 import {UnitSwitcher} from "shared/ui/UnitSwitcher";
 import {NavbarWeather} from "../ui/NavbarWeather/NavbarWeather";
+import {ThemeSwitcher} from "shared/ui/ThemeSwitcher";
 
 interface NavbarProps {
     className?: string;
@@ -10,7 +11,7 @@ interface NavbarProps {
 
 export const Navbar = ({className}: NavbarProps) => {
     return (
-        <div className={classNames(cls["navbar"], {}, [className])}>
+        <nav className={classNames(cls["navbar"], {}, [className])}>
             <div className={cls['navbar-weather-container']}>
                 <NavbarWeather/>
                 <div className={cls['navbar-weather-container-unit-switcher']}>
@@ -18,6 +19,9 @@ export const Navbar = ({className}: NavbarProps) => {
                 </div>
             </div>
             <NavbarItems/>
-        </div>
+            <div className={cls['navbar-theme-switcher']} >
+                <ThemeSwitcher />
+            </div>
+        </nav>
     );
 };

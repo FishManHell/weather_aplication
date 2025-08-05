@@ -3,8 +3,8 @@ import classNames from "classnames";
 import {Date} from "widgets/Date";
 import {useGetGeolocation} from "shared/lib/hooks";
 import {useGetWeatherByCityQuery} from "entities/Navbar/model/api/fetchWeatherByCurrentLocation";
-import { skipToken } from '@reduxjs/toolkit/query';
 
+const DELAY = 60_000
 
 interface NavbarWeatherProps {
     className?: string;
@@ -12,13 +12,9 @@ interface NavbarWeatherProps {
 
 export const NavbarWeather = ({className}: NavbarWeatherProps) => {
     const positions = useGetGeolocation();
-    console.log(positions, "positions")
     const { data: currentCity, error, isLoading } = useGetWeatherByCityQuery(
-        positions ? {...positions, units: "metric"} : skipToken,
-
-        // {pollingInterval: 1000}
+        {...positions, units: "metric"}, {pollingInterval: DELAY}
     );
-
 
     return (
         <div className={classNames(cls["navbar-weather"], className)}>
@@ -29,8 +25,8 @@ export const NavbarWeather = ({className}: NavbarWeatherProps) => {
                 />
             </header>
             <section className={cls['navbar-weather-info']}>
-                <h1>Weather</h1>
-                <Date className={cls['navbar-weather-info-date']} />
+                <h1>{currentCity?.name}</h1>
+                <Date className={cls['navbar-weather-info-date']} delay={DELAY}/>
             </section>
         </div>
     );

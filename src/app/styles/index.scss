@@ -1,16 +1,10 @@
 @use "reset";
 @use "variables/global";
-@use "themes/light";
-@use "themes/dark";
-
-
-body {
-  background: #252323;
-  color: #ffffff;
-}
 
 #root {
   padding: 10px;
-  max-width: 100%;
+  max-width: 1920px;
   width: 100%;
+  margin: 0 auto;
 }
+

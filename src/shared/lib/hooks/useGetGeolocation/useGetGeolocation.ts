@@ -8,7 +8,7 @@ export interface Positions {
 const DEFAULT_POSITIONS: Positions = { lat: 31.6693, lon: 34.5715}
 
 export function useGetGeolocation() {
-    const [positions, setPositions] = useState<Positions | null>(null);
+    const [positions, setPositions] = useState<Positions>(DEFAULT_POSITIONS);
 
     useEffect(() => {
         let resolved = false;

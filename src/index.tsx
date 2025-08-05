@@ -4,13 +4,16 @@ import "./app/styles/index.scss"
 import {BrowserRouter} from "react-router-dom";
 import {StoreProvider} from "app/providers/storeProvider";
 import '@fontsource/inter';
+import ThemeProvider from "./app/providers/ThemeProvider/ui/ThemeProvider";
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
 root.render(
     <BrowserRouter>
         <StoreProvider>
-            <App/>
+            <ThemeProvider>
+                <App/>
+            </ThemeProvider>
         </StoreProvider>
     </BrowserRouter>
 )

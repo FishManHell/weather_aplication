@@ -1,0 +1,36 @@
+.weather-small-card {
+  position: relative;
+  width: 121px;
+  height: 118px;
+  border-radius: 25px;
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -15px;
+    z-index: 1;
+    width: 100%;
+    height: 72px;
+    border-radius: inherit;
+    background-color: #7E8C99;
+  }
+}
+
+.weather-small-card-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+.weather-small-card-info-img-container {
+  width: 60px;
+  height: 60px;
+
+  .img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}

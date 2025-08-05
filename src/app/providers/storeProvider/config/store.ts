@@ -3,7 +3,6 @@ import {StateSchema, ThunkExtraArg} from "../config/stateSchema";
 import {$api} from "shared/api/api";
 import {unitSwitcherReducer} from "shared/ui/UnitSwitcher";
 import {buildNestedReducer} from "../config/buildNestedReducer";
-import {themeSwitcherReducer} from "shared/ui/ThemeSwitcher";
 import {weatherApi} from "shared/api/weatherApi";
 
 export function createReduxStore(initialState: StateSchema) {
@@ -12,7 +11,6 @@ export function createReduxStore(initialState: StateSchema) {
         ui: {
             switchers: {
                 unit: unitSwitcherReducer,
-                theme: themeSwitcherReducer
             }
         },
         [weatherApi.reducerPath]: weatherApi.reducer

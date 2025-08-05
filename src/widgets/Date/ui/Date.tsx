@@ -7,10 +7,11 @@ type TimeZone = 'PM' | 'AM';
 interface DateProps {
     className?: string;
     timezone?: TimeZone
+    delay?: number
 }
 
 export const Date = memo((props: DateProps) => {
-    const { className, timezone} = props;
+    const { className, timezone, delay} = props;
     const [date, setDate] = useState<globalThis.Date>(new globalThis.Date())
 
     const updateMinutes = useCallback(() => {
@@ -27,7 +28,7 @@ export const Date = memo((props: DateProps) => {
     }
 
     useEffect(() => {
-        const timer = setTimeout(updateTime, 60_000)
+        const timer = setTimeout(updateTime, delay)
 
         return () => clearTimeout(timer);
     }, [date]);

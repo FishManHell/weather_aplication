@@ -73,6 +73,16 @@ export const WeatherBigCard = (props: WeatherBigCardProps) => {
             <IconButton
                 className={cls["weather-big-card-fav-btn"]}
                 size="lg"
+                sx={{
+                    position: 'absolute',
+                    top: '0.875rem',
+                    right: '0.5rem',
+                    '&:hover': {
+                        backgroundColor: 'transparent',
+                        transform: 'scale(1.1)',
+                        transition: 'all 0.3s linear'
+                    }
+                }}
             >
                 <GradeOutlinedIcon />
             </IconButton>

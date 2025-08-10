@@ -1,8 +1,10 @@
 import cls from "./NavbarWeather.module.scss"
 import classNames from "classnames";
 import {Date} from "widgets/Date";
-import {useGetGeolocation} from "shared/lib/hooks";
-import {useGetWeatherByCityQuery} from "entities/Navbar/model/api/fetchWeatherByCurrentLocation";
+import {useGetWeatherByCityQuery} from "entities/Navbar";
+import {useSelector} from "react-redux";
+import {selectCurrentLocation} from "entities/CurrentLocation";
+import {skipToken} from "@reduxjs/toolkit/query";
 
 const DELAY = 60_000
 
@@ -11,9 +13,10 @@ interface NavbarWeatherProps {
 }
 
 export const NavbarWeather = ({className}: NavbarWeatherProps) => {
-    const positions = useGetGeolocation();
+    const defLocation = useSelector(selectCurrentLocation);
+
     const { data: currentCity, error, isLoading } = useGetWeatherByCityQuery(
-        {...positions, units: "metric"}, {pollingInterval: DELAY}
+        defLocation ? {...defLocation, units: "metric"} : skipToken, {pollingInterval: DELAY}
     );
 
     return (

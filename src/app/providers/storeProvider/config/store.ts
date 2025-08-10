@@ -4,6 +4,8 @@ import {$api} from "shared/api/api";
 import {unitSwitcherReducer} from "shared/ui/UnitSwitcher";
 import {buildNestedReducer} from "../config/buildNestedReducer";
 import {weatherApi} from "shared/api/weatherApi";
+import {cityReducer, hourlyWeatherByCoordsReducer} from "entities/Today";
+import {currentLocationReducer} from "entities/CurrentLocation";
 
 export function createReduxStore(initialState: StateSchema) {
 
@@ -11,9 +13,16 @@ export function createReduxStore(initialState: StateSchema) {
         ui: {
             switchers: {
                 unit: unitSwitcherReducer,
+            },
+            currentLocation: currentLocationReducer
+        },
+        api: {
+            today: {
+                location: cityReducer,
+                forecastHourly: hourlyWeatherByCoordsReducer
             }
         },
-        [weatherApi.reducerPath]: weatherApi.reducer
+        [weatherApi.reducerPath]: weatherApi.reducer,
     })
 
     const extraArgument: ThunkExtraArg = {api: $api}

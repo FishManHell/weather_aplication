@@ -1,7 +1,6 @@
-interface Coord {
-    lon: number;
-    lat: number;
-}
+import {Coordinates} from "shared/types";
+
+type Coord = Coordinates;
 
 interface Weather {
     id: number;
@@ -53,8 +52,6 @@ export interface CurrentCitySchema {
     cod: number;
 }
 
-export interface CurrentWeatherParams {
-    lat: number;
-    lon: number;
+export interface CurrentWeatherParams extends Coord {
     units: string;
 }

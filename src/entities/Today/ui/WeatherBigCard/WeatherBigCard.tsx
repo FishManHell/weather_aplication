@@ -1,45 +1,66 @@
 import cls from "./WeatherBigCard.module.scss"
 import classNames from "classnames";
-import {Card, CardContent, IconButton, SvgIcon, Typography} from "@mui/joy";
-import GradeIcon from '@mui/icons-material/Grade';
-import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
+import {Card, SvgIcon, Typography} from "@mui/joy";
 import PlaceIcon from '@mui/icons-material/Place';
 import TemperatureIcon from "shared/assets/icons/Temperature_.svg"
-import { BookmarkAdd } from "@mui/icons-material";
 import {City} from "../../model/types/citySchema";
 import {Temperature} from "shared/ui/Temperature";
 import {FavoriteButton} from "shared/ui/FavoriteButton";
+import {memo, useEffect, useState} from "react";
+import {getItem, setItem} from "helpers/localStorage";
+import {WeatherIcon} from "shared/ui/WeatherIcon";
+import {FooterContentItem} from "../FooterContentItem/FooterContentItem";
+import {DATE_FORMATS} from "helpers/time";
+import {FormattedDate} from "shared/ui/FormattedDate";
+
+type Favorite = string
 
 interface WeatherBigCardProps {
     className?: string;
     city?: City
 }
 
-
-interface FooterContentItemProps {
-    className?: string;
-    name: string;
-    value: string
-}
-
-const FooterContentItem = (props: FooterContentItemProps) => {
-    const {value, name, className} = props
-    return (
-        <div className={cls["weather-big-card-footer-content"]}>
-            <Typography level="body-lg">{name}</Typography>
-            <Typography level="body-md">{value}</Typography>
-        </div>
-    )
-}
-
-export const WeatherBigCard = (props: WeatherBigCardProps) => {
+export const WeatherBigCard = memo((props: WeatherBigCardProps) => {
     const {className, city} = props;
+    const footerClassName = cls["weather-big-card-footer-content"]
 
-    const timestamp = city?.dt;
-    const date = timestamp ? new Date(timestamp * 1000) : null;
+    const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
-    const img = `https://openweathermap.org/img/wn/${city?.weather[0].icon}.png`;
+    const favorites = getItem<Favorite[]>("favorites");
+    const cityName = city?.name;
 
+    const footerItems: Record<string, string>[] = [
+        { name: 'Humidity', value: `${city?.main.humidity}%`},
+        { name: 'Visibility', value: `${(city?.visibility ?? 0) / 1000}km`},
+        { name: 'Air Pressure', value: `${city?.main.pressure}hPa` },
+        { name: 'Wind', value: `${((city?.wind?.speed ?? 0) * 2.23694).toFixed(1)}mph`},
+    ];
+
+    const onSubscribe = () => {
+        if (!cityName) return;
+
+        setIsFavorite(true);
+        if (!favorites) setItem('favorites', [cityName]);
+        else {
+            if (!favorites.includes(cityName)) {
+                setItem('favorites', [...favorites, cityName])
+            }
+        }
+    }
+
+    const onUnSubscribe = () => {
+        if (!cityName || !favorites) return;
+        setIsFavorite(false)
+        setItem('favorites', favorites.filter(fav => fav !== cityName))
+    }
+
+    const onToggleFavorite = () => !isFavorite ? onSubscribe() : onUnSubscribe();
+
+    useEffect(() => {
+        if (!favorites) return
+        const favorite = city?.name && favorites.includes(city?.name);
+        setIsFavorite(!!favorite);
+    }, [city?.name]);
 
     return (
         <Card className={classNames(cls["weather-big-card"], className)}>
@@ -54,24 +75,31 @@ export const WeatherBigCard = (props: WeatherBigCardProps) => {
                     <SvgIcon className={cls["temp-wrapper-temp-icon"]}>
                         <TemperatureIcon />
                     </SvgIcon>
-                    <Temperature value={Math.round(city?.main?.temp ?? 0)}  level={'h1'}/>
-                    <div className={cls["temp-img-container"]}>
-                        <img
-                            src={img}
-                            alt="weather icon"
-                            className={cls["img"]}
-                        />
-                    </div>
+                    <Temperature value={Math.round(city?.main?.temp ?? 0)} level={'h1'}/>
+                    <WeatherIcon icon={city?.weather[0].icon} height={90} width={90}/>
                 </div>
             </section>
-            <Typography level="body-md">{date?.toLocaleDateString()}</Typography>
+            <FormattedDate
+                time={city?.dt}
+                format={DATE_FORMATS.SHORT}
+                level={"body-md"}
+            />
             <footer className={cls["weather-big-card-footer"]}>
-                <FooterContentItem name={'Humidity'} value={`${city?.main.humidity}%`}/>
-                <FooterContentItem name={'Visibility'} value={`${(city?.visibility ?? 0) / 1000}km`}/>
-                <FooterContentItem name={'Air Pressure'} value={`${city?.main.pressure}hPa`}/>
-                <FooterContentItem name={'Wind'} value={`${((city?.wind?.speed ?? 0) * 2.23694).toFixed(1)}mph`}/>
+                {footerItems.map(({name, value}) => {
+                  return (
+                      <FooterContentItem
+                          key={name}
+                          name={name}
+                          value={value}
+                          className={footerClassName}
+                      />
+                  )
+                })}
             </footer>
-            <FavoriteButton/>
+            <FavoriteButton
+                onToggleFavorite={onToggleFavorite}
+                isFavorite={isFavorite}
+            />
         </Card>
     );
-};
+});

@@ -1,46 +1,31 @@
 import cls from "./WeatherSmallCard.module.scss"
 import classNames from "classnames";
-import {Card, Typography} from "@mui/joy";
+import {Card} from "@mui/joy";
 import {OneCallWeatherHourly} from "entities/Today";
 import {Temperature} from "shared/ui/Temperature";
+import {memo} from "react";
+import {WeatherIcon} from "shared/ui/WeatherIcon";
+import {FormattedDate} from "shared/ui/FormattedDate";
+import {DATE_FORMATS} from "helpers/time";
 
 interface WeatherSmallCardProps {
     className?: string;
     hourlyData: OneCallWeatherHourly
 }
-type UnixTimestamp = number;
 
-const addZero = (numb: number): string | number => numb <= 9 ? `0${numb}` : numb;
-
-const modifDate = (timestamp: UnixTimestamp) => {
-    if (!timestamp) return null;
-
-    const d = new Date(timestamp);
-    const hour = addZero(d.getHours());
-    const minute = addZero(d.getMinutes());
-
-    return `${hour}:${minute}`;
-}
-
-export const WeatherSmallCard = (props: WeatherSmallCardProps) => {
+export const WeatherSmallCard = memo((props: WeatherSmallCardProps) => {
     const {className, hourlyData} = props
-
-    const img = `https://openweathermap.org/img/wn/${hourlyData.weather[0].icon}.png`;
-
-    const timestamp = hourlyData?.dt;
-    const date = modifDate(timestamp * 1000);
 
     return (
         <Card className={classNames(cls["weather-small-card"], className)}>
             <div className={cls["weather-small-card-info-wrapper"]}>
-                <Typography className={cls["weather-small-card-info-title"]} level={'title-lg'}>{date?.toLocaleString()}</Typography>
-                <div className={cls["weather-small-card-info-img-container"]}>
-                    <img
-                        src={img}
-                        alt="weather icon"
-                        className={cls["img"]}
-                    />
-                </div>
+                <FormattedDate
+                    time={hourlyData.dt}
+                    format={DATE_FORMATS.TIME}
+                    level={'title-lg'}
+                    className={cls["weather-small-card-info-title"]}
+                />
+                <WeatherIcon icon={hourlyData.weather[0].icon} height={60} width={60}/>
                 <Temperature
                     className={cls["weather-small-card-info-footer"]}
                     level={'title-lg'}
@@ -49,4 +34,4 @@ export const WeatherSmallCard = (props: WeatherSmallCardProps) => {
             </div>
         </Card>
     );
-};
+});

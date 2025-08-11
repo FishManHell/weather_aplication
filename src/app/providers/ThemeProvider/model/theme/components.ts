@@ -18,7 +18,8 @@ export const COMPONENTS = {
     JoyCard: {
         styleOverrides: {
             root: (props: { theme: Theme}) => ({
-                background: props.theme.palette.background.card
+                background: props.theme.palette.background.card,
+                borderRadius: props.theme.radius.lg
             }),
         },
     },
@@ -26,6 +27,7 @@ export const COMPONENTS = {
         styleOverrides: {
             root: (props: { theme: Theme}) => ({
                 background: props.theme.palette.background.card,
+                borderRadius: props.theme.radius.lg
             }),
             input: (props: {theme: Theme}) => ({
                 color: props.theme.palette.text.primary,

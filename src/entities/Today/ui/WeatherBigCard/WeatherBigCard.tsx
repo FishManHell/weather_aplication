@@ -8,6 +8,7 @@ import TemperatureIcon from "shared/assets/icons/Temperature_.svg"
 import { BookmarkAdd } from "@mui/icons-material";
 import {City} from "../../model/types/citySchema";
 import {Temperature} from "shared/ui/Temperature";
+import {FavoriteButton} from "shared/ui/FavoriteButton";
 
 interface WeatherBigCardProps {
     className?: string;
@@ -70,22 +71,7 @@ export const WeatherBigCard = (props: WeatherBigCardProps) => {
                 <FooterContentItem name={'Air Pressure'} value={`${city?.main.pressure}hPa`}/>
                 <FooterContentItem name={'Wind'} value={`${((city?.wind?.speed ?? 0) * 2.23694).toFixed(1)}mph`}/>
             </footer>
-            <IconButton
-                className={cls["weather-big-card-fav-btn"]}
-                size="lg"
-                sx={{
-                    position: 'absolute',
-                    top: '0.875rem',
-                    right: '0.5rem',
-                    '&:hover': {
-                        backgroundColor: 'transparent',
-                        transform: 'scale(1.1)',
-                        transition: 'all 0.3s linear'
-                    }
-                }}
-            >
-                <GradeOutlinedIcon />
-            </IconButton>
+            <FavoriteButton/>
         </Card>
     );
 };

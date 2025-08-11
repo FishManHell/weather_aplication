@@ -1,9 +1,14 @@
 .navbar-weather {
   display: flex;
+  flex-direction: column;
 }
 
 .navbar-weather-header {
-  width: 67px;
+  display: flex;
+}
+
+.navbar-weather-header-img-container {
+  width: 60px;
   height: 50px;
 
   img {
@@ -11,15 +16,18 @@
   }
 }
 
-.navbar-weather-info {
-  h1 {
-    font-size: 69px;
-  }
+.navbar-weather-header-title {
+  font-size: 60px;
+}
 
-  .navbar-weather-info-date {
-    text-align: right;
-    span {
-      font-size: 19px;
-    }
+.navbar-weather-header-error-title {
+  font-size: 35px;
+  color: var(--error-txt-color);
+}
+
+.navbar-weather-info-date {
+  text-align: right;
+  span {
+    font-size: 19px;
   }
 }

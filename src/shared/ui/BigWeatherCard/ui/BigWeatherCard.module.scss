@@ -1,4 +1,4 @@
-.weather-big-card {
+.big-weather-card {
   max-width: 800px;
   width: 100%;
   height: 400px;
@@ -6,18 +6,18 @@
   border: none;
 }
 
-.weather-big-card-header-title {
+.big-weather-card-header-title {
   display: flex;
 }
 
-.weather-big-card-temp-wrapper {
-  width: 250px;
-  margin: 0 auto;
+.big-weather-card-main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.temp-wrapper {
+.big-weather-card-temp-wrapper {
   display: flex;
-  justify-content: space-between;
   align-items: center;
 
   .temp-wrapper-temp-icon {
@@ -30,12 +30,8 @@
   }
 }
 
-.weather-big-card-footer {
+.big-weather-card-footer {
   display: flex;
   justify-content: space-around;
-
-
-  .weather-big-card-footer-content {
-    text-align: center;
-  }
+  text-align: center;
 }

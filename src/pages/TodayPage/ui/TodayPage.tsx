@@ -1,16 +1,20 @@
 import cls from "./TodayPage.module.scss"
 import classNames from "classnames";
-import {WeatherBigCard} from "entities/Today/ui/WeatherBigCard/WeatherBigCard";
-import {WeatherSmallCard} from "entities/Today/ui/WeatherSmallCard/WeatherSmallCard";
 import {Search} from "widgets/Search/ui/Search";
 import {useAppDispatch} from "shared/lib/hooks";
-import {fetchCityPosition} from "entities/Today/model/services/fetchCityPosition";
+import {
+    fetchCityPosition,
+    selectCity,
+    selectCityLoading,
+    selectHourlyByCoords,
+    selectHourlyByCoordsLoading
+} from "entities/Today";
 import {useSelector} from "react-redux";
-import {selectCity} from "entities/Today/model/selectors/citySelectors";
-import {selectHourlyByCoords} from "entities/Today/model/selectors/hourlyWeatherByCoordSelectors";
-import {useEffect} from "react";
-import {fetchWeatherByCurrentLocation} from "entities/Navbar/model/api/fetchWeatherByCurrentLocation";
-import {selectCurrentLocation} from "entities/CurrentLocation/model/selectors/currentLocation";
+import {useEffect, useMemo} from "react";
+import {fetchWeatherByCurrentLocation} from "entities/Navbar/model/api/fetchWeatherByCurrentLocation"; // need the same in Today
+import {selectCurrentLocation} from "entities/CurrentLocation";
+import {BigWeatherCard} from "shared/ui/BigWeatherCard";
+import {SmallWeatherCard, SmallWeatherCardSkeleton} from "shared/ui/SmallWeatherCard";
 
 interface TodayPageProps {
     className?: string;
@@ -19,7 +23,9 @@ interface TodayPageProps {
 const TodayPage = ({className}: TodayPageProps) => {
     const dispatch = useAppDispatch();
     const location = useSelector(selectCity);
+    const locationLoading = useSelector(selectCityLoading);
     const hourly = useSelector(selectHourlyByCoords);
+    const hourlyLoading = useSelector(selectHourlyByCoordsLoading);
     const defLocation = useSelector(selectCurrentLocation);
 
     const weatherByCurrentLocation = useSelector(
@@ -35,6 +41,22 @@ const TodayPage = ({className}: TodayPageProps) => {
         localStorage.setItem("city", city);
     }
 
+    const renderDataOrLoading = useMemo(() => {
+        if (hourlyLoading && !hourly?.length) {
+            return Array.from({ length: 8 }, (_, i) => (
+                <SmallWeatherCardSkeleton key={i} />
+            ));
+        }
+
+        if (!hourlyLoading && hourly?.length) {
+            return hourly.map((hour) => (
+                <SmallWeatherCard hourlyData={hour} key={hour.dt} />
+            ));
+        }
+
+        return null;
+    }, [hourlyLoading, hourly])
+
     useEffect(() => {
         const city = localStorage.getItem('city') || weatherByCurrentLocation?.data?.name;
         if (!city) return
@@ -44,14 +66,11 @@ const TodayPage = ({className}: TodayPageProps) => {
     return (
         <div className={classNames(cls["today-page"], className)}>
             <Search onSearch={onFetchCityCoordinates} />
-            <WeatherBigCard city={location}/>
+            <BigWeatherCard city={location} loading={locationLoading}/>
 
             <section style={{display: "flex", justifyContent: "space-around", width: "100%", marginTop: "20px"}}>
-                {hourly?.map((hour) => {
-                    return <WeatherSmallCard hourlyData={hour} key={hour.dt}/>
-                })}
+                {renderDataOrLoading}
             </section>
-
         </div>
     );
 };

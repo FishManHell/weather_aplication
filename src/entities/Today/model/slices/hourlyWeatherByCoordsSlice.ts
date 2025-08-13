@@ -5,7 +5,7 @@ import {HourlyWeatherSchema, OneCallWeatherSchema} from "entities/Today/model/ty
 
 const initialState: HourlyWeatherSchema = {
     hourly: [],
-    isLoading: false,
+    isLoading: true,
     error: undefined,
 }
 

@@ -5,6 +5,7 @@ import {useGetWeatherByCityQuery} from "entities/Navbar";
 import {useSelector} from "react-redux";
 import {selectCurrentLocation, selectCurrentLocationError} from "entities/CurrentLocation";
 import {skipToken} from "@reduxjs/toolkit/query";
+import {WeatherIcon} from "shared/ui/WeatherIcon";
 
 const DELAY = 60_000
 
@@ -33,13 +34,7 @@ export const NavbarWeather = ({className}: NavbarWeatherProps) => {
 
         return (
             <header className={cls['navbar-weather-header']}>
-                <div className={cls["navbar-weather-header-img-container"]}>
-                    <img
-                        src={`https://openweathermap.org/img/wn/${currentCity?.weather[0].icon}.png`}
-                        alt="weather icon"
-                    />
-                </div>
-
+                <WeatherIcon icon={currentCity?.weather[0].icon} width={50} height={50}/>
                 <h1 className={cls['navbar-weather-header-title']}>{currentCity?.name}</h1>
             </header>
         )

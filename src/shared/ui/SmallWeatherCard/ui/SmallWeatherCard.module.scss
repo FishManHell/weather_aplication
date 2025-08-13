@@ -1,7 +1,7 @@
-.weather-small-card {
+.small-weather-card {
   position: relative;
-  width: 121px;
-  height: 118px;
+  width: 120px;
+  height: 120px;
 
   &:after {
     content: "";
@@ -16,7 +16,7 @@
   }
 }
 
-.weather-small-card-info-wrapper {
+.small-weather-card-info-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;

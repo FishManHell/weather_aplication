@@ -1,4 +1,4 @@
-import cls from "./WeatherSmallCard.module.scss"
+import cls from "./SmallWeatherCard.module.scss"
 import classNames from "classnames";
 import {Card} from "@mui/joy";
 import {OneCallWeatherHourly} from "entities/Today";
@@ -8,26 +8,27 @@ import {WeatherIcon} from "shared/ui/WeatherIcon";
 import {FormattedDate} from "shared/ui/FormattedDate";
 import {DATE_FORMATS} from "helpers/time";
 
-interface WeatherSmallCardProps {
+interface SmallWeatherCardProps {
     className?: string;
-    hourlyData: OneCallWeatherHourly
+    hourlyData: OneCallWeatherHourly;
+    loading?: boolean;
 }
 
-export const WeatherSmallCard = memo((props: WeatherSmallCardProps) => {
-    const {className, hourlyData} = props
+export const SmallWeatherCard = memo((props: SmallWeatherCardProps) => {
+    const {className, hourlyData} = props;
 
     return (
-        <Card className={classNames(cls["weather-small-card"], className)}>
-            <div className={cls["weather-small-card-info-wrapper"]}>
+        <Card className={classNames(cls["small-weather-card"], className)}>
+            <div className={cls["small-weather-card-info-wrapper"]}>
                 <FormattedDate
                     time={hourlyData.dt}
                     format={DATE_FORMATS.TIME}
                     level={'title-lg'}
-                    className={cls["weather-small-card-info-title"]}
+                    className={cls["small-weather-card-info-title"]}
                 />
                 <WeatherIcon icon={hourlyData.weather[0].icon} height={60} width={60}/>
                 <Temperature
-                    className={cls["weather-small-card-info-footer"]}
+                    className={cls["small-weather-card-info-footer"]}
                     level={'title-lg'}
                     value={hourlyData?.temp}
                 />

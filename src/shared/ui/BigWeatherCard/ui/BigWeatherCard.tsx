@@ -1,32 +1,35 @@
-import cls from "./WeatherBigCard.module.scss"
+import cls from "./BigWeatherCard.module.scss"
 import classNames from "classnames";
-import {Card, SvgIcon, Typography} from "@mui/joy";
-import PlaceIcon from '@mui/icons-material/Place';
-import TemperatureIcon from "shared/assets/icons/Temperature_.svg"
-import {City} from "../../model/types/citySchema";
+import {Card, SvgIcon, Typography} from "@mui/material";
+import PlaceIcon from "@mui/icons-material/Place";
+import TemperatureIcon from "shared/assets/icons/Temperature_.svg";
 import {Temperature} from "shared/ui/Temperature";
-import {FavoriteButton} from "shared/ui/FavoriteButton";
-import {memo, useEffect, useState} from "react";
-import {getItem, setItem} from "helpers/localStorage";
 import {WeatherIcon} from "shared/ui/WeatherIcon";
-import {FooterContentItem} from "../FooterContentItem/FooterContentItem";
-import {DATE_FORMATS} from "helpers/time";
 import {FormattedDate} from "shared/ui/FormattedDate";
+import {DATE_FORMATS} from "helpers/time";
+import {BigWeatherCardFooter} from "./BigWeatherCardFooter";
+import {FavoriteButton} from "shared/ui/FavoriteButton";
+import {City} from "entities/Today/model/types/citySchema";
+import {useEffect, useState} from "react";
+import {getItem, setItem} from "helpers/localStorage";
+import {BigWeatherCardSkeleton} from "shared/ui/BigWeatherCard/ui/BigWeatherCardSkeleton";
 
 type Favorite = string
 
-interface WeatherBigCardProps {
+interface BigWeatherCardProps {
     className?: string;
-    city?: City
+    city?: City;
+    loading?: boolean;
 }
 
-export const WeatherBigCard = memo((props: WeatherBigCardProps) => {
-    const {className, city} = props;
+export const BigWeatherCard = (props: BigWeatherCardProps) => {
+    const {className, city, loading} = props;
+
     const footerClassName = cls["weather-big-card-footer-content"]
 
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
-
     const favorites = getItem<Favorite[]>("favorites");
+
     const cityName = city?.name;
 
     const footerItems: Record<string, string>[] = [
@@ -62,38 +65,45 @@ export const WeatherBigCard = memo((props: WeatherBigCardProps) => {
         setIsFavorite(!!favorite);
     }, [city?.name]);
 
+
+    if (loading) return <BigWeatherCardSkeleton/>
+
     return (
-        <Card className={classNames(cls["weather-big-card"], className)}>
-            <header className={cls["weather-big-card-header"]}>
-                <Typography level="h3" className={cls["weather-big-card-header-title"]}>
+        <Card className={classNames(cls["big-weather-card"], className)}>
+            <header className={cls["big-weather-card-header"]}>
+                <Typography level="h3" className={cls["big-weather-card-header-title"]}>
                     {city?.name}
                     <PlaceIcon/>
                 </Typography>
             </header>
-            <section className={cls['weather-big-card-temp-wrapper']}>
-                <div className={cls['temp-wrapper']}>
+
+            <main className={cls["big-weather-card-main-container"]}>
+                <section>
+                    <WeatherIcon icon={city?.weather[0].icon} height={90} width={90}/>
+                </section>
+                <section className={cls['big-weather-card-temp-wrapper']}>
                     <SvgIcon className={cls["temp-wrapper-temp-icon"]}>
                         <TemperatureIcon />
                     </SvgIcon>
                     <Temperature value={Math.round(city?.main?.temp ?? 0)} level={'h1'}/>
-                    <WeatherIcon icon={city?.weather[0].icon} height={90} width={90}/>
-                </div>
-            </section>
+                </section>
+            </main>
+
             <FormattedDate
                 time={city?.dt}
                 format={DATE_FORMATS.SHORT}
                 level={"body-md"}
             />
-            <footer className={cls["weather-big-card-footer"]}>
+            <footer className={cls["big-weather-card-footer"]}>
                 {footerItems.map(({name, value}) => {
-                  return (
-                      <FooterContentItem
-                          key={name}
-                          name={name}
-                          value={value}
-                          className={footerClassName}
-                      />
-                  )
+                    return (
+                        <BigWeatherCardFooter
+                            key={name}
+                            name={name}
+                            value={value}
+                            className={footerClassName}
+                        />
+                    )
                 })}
             </footer>
             <FavoriteButton
@@ -102,4 +112,4 @@ export const WeatherBigCard = memo((props: WeatherBigCardProps) => {
             />
         </Card>
     );
-});
+};

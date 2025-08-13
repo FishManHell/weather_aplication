@@ -33,7 +33,7 @@ export const Search = (props: SearchProps) => {
                 value={searchValue}
                 onChange={onChange}
                 className={cls['search-input']}
-                startDecorator={<SearchIcon className={cls['search-input-icon']}/>}
+                startDecorator={<SearchIcon className={cls['search-input-icon']} sx={{ fontSize: 45 }}/>}
                 placeholder={"Search location..."}
             />
         </div>

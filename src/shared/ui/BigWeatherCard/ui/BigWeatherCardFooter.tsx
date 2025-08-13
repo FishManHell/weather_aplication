@@ -7,10 +7,10 @@ interface FooterContentItemProps {
     value: string
 }
 
-export const FooterContentItem = (props: FooterContentItemProps) => {
+export const BigWeatherCardFooter = (props: FooterContentItemProps) => {
     const {value, name, className} = props
     return (
-        <div className={classNames("footer-content-item", className)}>
+        <div className={classNames("big-weather-card-footer", className)}>
             <Typography level="body-lg">{name}</Typography>
             <Typography level="body-md">{value}</Typography>
         </div>

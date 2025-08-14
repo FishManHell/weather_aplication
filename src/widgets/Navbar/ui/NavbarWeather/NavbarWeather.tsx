@@ -1,7 +1,7 @@
 import cls from "./NavbarWeather.module.scss"
 import classNames from "classnames";
 import {Date} from "widgets/Date";
-import {useGetWeatherByCityQuery} from "entities/Navbar";
+import {useGetWeatherByCityQuery} from "entities/Weather";
 import {useSelector} from "react-redux";
 import {selectCurrentLocation, selectCurrentLocationError} from "entities/CurrentLocation";
 import {skipToken} from "@reduxjs/toolkit/query";

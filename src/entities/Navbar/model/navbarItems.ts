@@ -1,14 +1,10 @@
-import {Navbar} from "./types/navbarSchema"
+import {INavbarItem} from "./types/navbarItem"
 import {RoutePath} from "shared/config/routeConfig/routeConfig";
 
-export const NavbarItemsList: Navbar[] = [
+export const NavbarItemsList: INavbarItem[] = [
     {
         path: RoutePath.today,
         text: "Today"
-    },
-    {
-        path: RoutePath.tomorrow,
-        text: "Tomorrow"
     },
     {
         path: RoutePath.favorite,

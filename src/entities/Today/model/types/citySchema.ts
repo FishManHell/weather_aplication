@@ -1,6 +1,6 @@
-import {CurrentCitySchema} from "entities/Navbar";
+import {WeatherByCitySchema} from "entities/Weather";
 
-export type City = CurrentCitySchema;
+export type City = WeatherByCitySchema;
 
 export interface CitySchema {
     city?: City,

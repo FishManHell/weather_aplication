@@ -1,7 +1,5 @@
 import {Coordinates} from "shared/types";
 
-type Coord = Coordinates;
-
 interface Weather {
     id: number;
     main: string;
@@ -36,9 +34,9 @@ interface Sys {
     sunset: number;
 }
 
-export interface CurrentCitySchema {
+export interface WeatherByCitySchema {
     base: string
-    coord: Coord;
+    coord: Coordinates;
     weather: Weather[];
     main: Main;
     visibility: number;
@@ -50,8 +48,4 @@ export interface CurrentCitySchema {
     id: number;
     name: string;
     cod: number;
-}
-
-export interface CurrentWeatherParams extends Coord {
-    units: string;
 }

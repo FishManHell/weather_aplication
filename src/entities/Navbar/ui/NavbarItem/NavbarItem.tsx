@@ -1,9 +1,9 @@
 import cls from "./NavbarItem.module.scss"
 import classNames from "classnames";
 import {AppLink} from "shared/ui/AppLink/AppLink";
-import {Navbar} from "entities/Navbar/model/types/navbarSchema"
+import {INavbarItem} from "../../model/types/navbarItem";
 
-interface NavbarItemProps extends Navbar {
+interface NavbarItemProps extends INavbarItem {
     className?: string;
 }
 

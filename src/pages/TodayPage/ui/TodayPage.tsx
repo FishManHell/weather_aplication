@@ -11,7 +11,7 @@ import {
 } from "entities/Today";
 import {useSelector} from "react-redux";
 import {useEffect, useMemo} from "react";
-import {fetchWeatherByCurrentLocation} from "entities/Navbar/model/api/fetchWeatherByCurrentLocation"; // need the same in Today
+import {fetchWeatherByCurrentLocation} from "entities/Weather";
 import {selectCurrentLocation} from "entities/CurrentLocation";
 import {BigWeatherCard} from "shared/ui/BigWeatherCard";
 import {SmallWeatherCard, SmallWeatherCardSkeleton} from "shared/ui/SmallWeatherCard";
@@ -42,13 +42,13 @@ const TodayPage = ({className}: TodayPageProps) => {
     }
 
     const renderDataOrLoading = useMemo(() => {
-        if (hourlyLoading && !hourly?.length) {
+        if (hourlyLoading) {
             return Array.from({ length: 8 }, (_, i) => (
                 <SmallWeatherCardSkeleton key={i} />
             ));
         }
 
-        if (!hourlyLoading && hourly?.length) {
+        if (hourly?.length) {
             return hourly.map((hour) => (
                 <SmallWeatherCard hourlyData={hour} key={hour.dt} />
             ));

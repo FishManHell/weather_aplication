@@ -30,7 +30,7 @@ export const BigWeatherCard = (props: BigWeatherCardProps) => {
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
     const favorites = getItem<Favorite[]>("favorites");
 
-    const cityName = city?.name;
+    const cityId = city?.id.toString();
 
     const footerItems: Record<string, string>[] = [
         { name: 'Humidity', value: `${city?.main.humidity}%`},
@@ -40,30 +40,30 @@ export const BigWeatherCard = (props: BigWeatherCardProps) => {
     ];
 
     const onSubscribe = () => {
-        if (!cityName) return;
+        if (!cityId) return;
 
         setIsFavorite(true);
-        if (!favorites) setItem('favorites', [cityName]);
+        if (!favorites) setItem('favorites', [cityId]);
         else {
-            if (!favorites.includes(cityName)) {
-                setItem('favorites', [...favorites, cityName])
+            if (!favorites.includes(cityId)) {
+                setItem('favorites', [...favorites, cityId])
             }
         }
     }
 
     const onUnSubscribe = () => {
-        if (!cityName || !favorites) return;
+        if (!cityId || !favorites) return;
         setIsFavorite(false)
-        setItem('favorites', favorites.filter(fav => fav !== cityName))
+        setItem('favorites', favorites.filter(fav => fav !== cityId))
     }
 
     const onToggleFavorite = () => !isFavorite ? onSubscribe() : onUnSubscribe();
 
     useEffect(() => {
         if (!favorites) return
-        const favorite = city?.name && favorites.includes(city?.name);
+        const favorite = cityId && favorites.includes(cityId);
         setIsFavorite(!!favorite);
-    }, [city?.name]);
+    }, [cityId]);
 
 
     if (loading) return <BigWeatherCardSkeleton/>

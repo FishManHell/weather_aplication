@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import {Typography} from "@mui/joy";
 import {ComponentProps, FC} from "react";
-import {useSelector} from "react-redux";
-import {selectUnitSwitcherUnit} from "shared/ui/UnitSwitcher/model/selectors/unitSwitcher";
+import {selectUnitSwitcherUnit} from "shared/ui/UnitSwitcher";
+import {useAppSelector} from "shared/lib/hooks";
 
 interface TemperatureProps {
     className?: string;
@@ -13,7 +13,7 @@ interface TemperatureProps {
 
 export const Temperature: FC<TemperatureProps> = (props) => {
     const {className, level = 'body-lg', decimals, value} = props;
-    const unit = useSelector(selectUnitSwitcherUnit);
+    const unit = useAppSelector(selectUnitSwitcherUnit);
 
     return (
         <Typography className={classNames("temperature", className)} level={level}>

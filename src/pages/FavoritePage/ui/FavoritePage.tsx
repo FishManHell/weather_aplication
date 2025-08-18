@@ -1,13 +1,11 @@
 import cls from "./FavoritePage.module.scss"
 import {ScrollObserverWrapper} from "shared/ui/ScrollObserverWrapper";
-import {useAppDispatch, useOnUnmount} from "shared/lib/hooks";
+import {useAppDispatch, useAppSelector, useOnUnmount} from "shared/lib/hooks";
 import {
     fetchFavoriteCities,
     favoriteCitiesActions,
     selectFavoriteCities,
-    selectFavoriteLoadings
 } from "entities/Favorites";
-import {useSelector} from "react-redux";
 import {MediumCard} from "shared/ui/WeatherCard";
 import {getItem} from "helpers/localStorage";
 import {Page} from "shared/ui/Page";
@@ -20,12 +18,11 @@ interface FavoritePageProps {
 
 const FavoritePage = (props: FavoritePageProps) => {
     const {className} = props;
+    const names = getItem<string[]>('favorites') || [];
     const dispatch = useAppDispatch();
 
-    const cities = useSelector(selectFavoriteCities);
-    const loadings = useSelector(selectFavoriteLoadings);
+    const cities = useAppSelector(state => selectFavoriteCities(state, names));
 
-    const city_names = getItem<string[]>('favorites');
     const containerRef = useRef<HTMLDivElement | null>(null);
 
     const handleCityVisible = (city: string) => {
@@ -33,12 +30,16 @@ const FavoritePage = (props: FavoritePageProps) => {
         dispatch(fetchFavoriteCities(city));
     };
 
+    const onRemoveFavorite = (cityName: string) => {
+        dispatch(favoriteCitiesActions.onRemoveFavoriteCity(cityName));
+    }
+
     useOnUnmount(() =>  {
         dispatch(favoriteCitiesActions.resetFavoriteState())
     })
 
 
-    if (!city_names || !city_names.length) {
+    if (!names || !names.length) {
         return (
             <div>
                 <h1>Not Found</h1>
@@ -49,12 +50,20 @@ const FavoritePage = (props: FavoritePageProps) => {
     return (
         <Page ref={containerRef} className={classNames(cls['favorite-page'], className)}>
             <ScrollObserverWrapper
-                items={city_names}
+                items={names}
                 getId={(city) => city}
                 onItemVisible={handleCityVisible}
                 containerRef={containerRef}
             >
-                {(city_name ) =>  <MediumCard loading={loadings[city_name]} city={cities[city_name]}/>}
+                {(city_name ) =>  {
+                    return (
+                        <MediumCard
+                            loading={cities[city_name].loading}
+                            city={cities[city_name].city}
+                            onRemoveFavorite={onRemoveFavorite}
+                        />
+                    )
+                }}
             </ScrollObserverWrapper>
         </Page>
     );

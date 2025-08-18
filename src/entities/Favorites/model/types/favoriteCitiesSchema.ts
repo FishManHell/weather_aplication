@@ -2,9 +2,14 @@ import {WeatherByCitySchema} from "entities/Weather";
 
 export type FavoriteCity = WeatherByCitySchema
 
-export interface FavoriteCitiesSchema {
-    favoriteCities: Record<string, FavoriteCity>;
-    favoriteLoadings: Record<string, boolean>;
-    favoriteErrors: Record<string, string | undefined>;
+interface FavoriteCityState {
+    city?: FavoriteCity;
+    loading?: boolean
+    error?: string
+}
 
+export type FavoriteCitiesMap = Record<string, FavoriteCityState>
+
+export interface FavoriteCitiesSchema {
+    entities: FavoriteCitiesMap
 }

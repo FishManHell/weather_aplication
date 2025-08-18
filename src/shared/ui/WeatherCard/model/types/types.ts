@@ -11,5 +11,6 @@ export interface WeatherCardProps {
     className?: string;
     city?: WeatherByCitySchema;
     loading?: boolean;
-    size?: WeatherCardSize
+    size?: WeatherCardSize;
+    onRemoveFavorite?: (cityName: string) => void
 }

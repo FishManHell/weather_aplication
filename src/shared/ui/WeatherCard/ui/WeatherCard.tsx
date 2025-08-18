@@ -9,20 +9,18 @@ import {FormattedDate} from "shared/ui/FormattedDate";
 import {DATE_FORMATS} from "helpers/time";
 import {WeatherCardFooterItem} from "./WeatherCardFooterItem";
 import {FavoriteButton} from "shared/ui/FavoriteButton";
-import {useEffect, useState} from "react";
-import {getItem, setItem} from "helpers/localStorage";
 import {WeatherCardSkeleton} from "./WeatherCardSkeleton";
-import {WeatherCardSize, Favorite, WeatherCardProps} from "../model/types/types";
+import {WeatherCardSize, WeatherCardProps} from "../model/types/types";
+import {useFavorite} from "shared/lib/hooks/useFavorite/useFavorite";
+import {memo} from "react";
 
-export const WeatherCard = (props: WeatherCardProps) => {
-    const {className, city, loading, size = WeatherCardSize.BIG} = props;
+export const WeatherCard = memo((props: WeatherCardProps) => {
+    const {className, city, loading, size = WeatherCardSize.BIG, onRemoveFavorite} = props;
 
-    const footerClassName = cls["weather-card-footer-content"]
-
-    const [isFavorite, setIsFavorite] = useState<boolean>(false);
-    const favorites = getItem<Favorite[]>("favorites");
+    const footerClassName = cls["weather-card-footer-content"];
 
     const cityName = city?.name;
+    const {isFavorite, unSubscribe, subscribe} = useFavorite(cityName, onRemoveFavorite);
 
     const footerItems: Record<string, string>[] = [
         { name: 'Humidity', value: `${city?.main.humidity}%`},
@@ -31,31 +29,7 @@ export const WeatherCard = (props: WeatherCardProps) => {
         { name: 'Wind', value: `${((city?.wind?.speed ?? 0) * 2.23694).toFixed(1)}mph`},
     ];
 
-    const onSubscribe = () => {
-        if (!cityName) return;
-
-        setIsFavorite(true);
-        if (!favorites) setItem('favorites', [cityName]);
-        else {
-            if (!favorites.includes(cityName)) {
-                setItem('favorites', [...favorites, cityName])
-            }
-        }
-    }
-
-    const onUnSubscribe = () => {
-        if (!cityName || !favorites) return;
-        setIsFavorite(false)
-        setItem('favorites', favorites.filter(fav => fav !== cityName))
-    }
-
-    const onToggleFavorite = () => !isFavorite ? onSubscribe() : onUnSubscribe();
-
-    useEffect(() => {
-        if (!favorites) return
-        const favorite = cityName && favorites.includes(cityName);
-        setIsFavorite(!!favorite);
-    }, [cityName]);
+    const handleFavoriteToggle = () => !isFavorite ? subscribe() : unSubscribe();
 
 
     if (loading) return <WeatherCardSkeleton size={size}/>
@@ -94,7 +68,10 @@ export const WeatherCard = (props: WeatherCardProps) => {
                     )
                 })}
             </footer>
-            <FavoriteButton onToggleFavorite={onToggleFavorite} isFavorite={isFavorite}/>
+            <FavoriteButton
+                handleFavoriteToggle={handleFavoriteToggle}
+                isFavorite={isFavorite}
+            />
         </Card>
     );
-};
+});

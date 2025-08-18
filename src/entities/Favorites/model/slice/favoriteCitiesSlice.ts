@@ -1,32 +1,39 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {FavoriteCitiesSchema, FavoriteCity} from "entities/Favorites/model/types/favoriteCitiesSchema";
+import {FavoriteCitiesSchema, FavoriteCity} from "../types/favoriteCitiesSchema";
 import {fetchFavoriteCities} from "entities/Favorites";
 
 const initialState: FavoriteCitiesSchema = {
-    favoriteCities: {},
-    favoriteErrors: {},
-    favoriteLoadings: {}
+    entities: {}
 }
 
 const favoriteCitiesSlice = createSlice({
     name: 'favorite',
     initialState,
     reducers: {
+        onRemoveFavoriteCity(state, { payload }: PayloadAction<string>) {
+            delete state.entities[payload];
+        },
         resetFavoriteState: () => initialState
     },
     extraReducers: (builder) => {
         builder.addCase(fetchFavoriteCities.pending, (state, {meta: {arg}}) => {
-            state.favoriteLoadings[arg] = true;
-            state.favoriteErrors[arg] = undefined;
+            state.entities[arg] = {
+                loading: true,
+                error: undefined,
+            }
         })
             .addCase(fetchFavoriteCities.fulfilled, (state, {payload}: PayloadAction<FavoriteCity>) => {
-                const city = payload.name
-                state.favoriteCities[city] = payload;
-                state.favoriteLoadings[city] = false;
+                state.entities[payload.name] = {
+                    loading: false,
+                    city: payload
+                }
             })
             .addCase(fetchFavoriteCities.rejected, (state, {payload, meta: {arg}}) => {
-                state.favoriteLoadings[arg] = false;
-                state.favoriteErrors[arg] = payload;
+                state.entities[arg] = {
+                    ...state.entities[arg],
+                    loading: false,
+                    error: payload,
+                }
             })
     }
 })

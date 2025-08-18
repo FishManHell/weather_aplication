@@ -1,7 +1,7 @@
 import cls from "./TodayPage.module.scss"
 import classNames from "classnames";
 import {Search} from "widgets/Search/ui/Search";
-import {useAppDispatch, useOnUnmount} from "shared/lib/hooks";
+import {useAppDispatch, useAppSelector, useOnUnmount} from "shared/lib/hooks";
 import {
     cityActions,
     fetchCityPosition,
@@ -11,14 +11,13 @@ import {
     selectHourlyByCoords,
     selectHourlyByCoordsLoading
 } from "entities/Today";
-import {useSelector} from "react-redux";
 import {useEffect} from "react";
 import {fetchWeatherByCurrentLocation} from "entities/Weather";
 import {selectCurrentLocation} from "entities/CurrentLocation";
 import {BigCard} from "shared/ui/WeatherCard";
 import {HourlyCardsWrapper} from "shared/ui/HourlyCard";
 import {Page} from "shared/ui/Page";
-import {setItem} from "helpers/localStorage";
+import {getItem} from "helpers/localStorage";
 
 interface TodayPageProps {
     className?: string;
@@ -26,13 +25,13 @@ interface TodayPageProps {
 
 const TodayPage = ({className}: TodayPageProps) => {
     const dispatch = useAppDispatch();
-    const location = useSelector(selectCity);
-    const locationLoading = useSelector(selectCityLoading);
-    const hourly = useSelector(selectHourlyByCoords);
-    const hourlyLoading = useSelector(selectHourlyByCoordsLoading);
-    const defLocation = useSelector(selectCurrentLocation);
+    const location = useAppSelector(selectCity);
+    const locationLoading = useAppSelector(selectCityLoading);
+    const hourly = useAppSelector(selectHourlyByCoords);
+    const hourlyLoading = useAppSelector(selectHourlyByCoordsLoading);
+    const defLocation = useAppSelector(selectCurrentLocation);
 
-    const weatherByCurrentLocation = useSelector(
+    const weatherByCurrentLocation = useAppSelector(
         defLocation
             ? fetchWeatherByCurrentLocation.endpoints?.getWeatherByCity.select(
                 {...defLocation, units: "metric"}
@@ -42,7 +41,6 @@ const TodayPage = ({className}: TodayPageProps) => {
 
     const onFetchCityCoordinates = (city: string) => {
         dispatch(fetchCityPosition(city));
-        setItem('city', city);
     }
 
     const onUnmountDispatches = () => {
@@ -51,7 +49,9 @@ const TodayPage = ({className}: TodayPageProps) => {
     }
 
     useEffect(() => {
-        const city = localStorage.getItem('city') || weatherByCurrentLocation?.data?.name;
+        const city = getItem<string>('city') || weatherByCurrentLocation?.data?.name;
+
+        console.log(city, "city")
         if (!city) return
         dispatch(fetchCityPosition(city));
     }, [weatherByCurrentLocation?.data]);

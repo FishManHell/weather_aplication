@@ -18,18 +18,18 @@ const MyIconButton = styled(IconButton)(({ theme }) => ({
 
 interface FavoriteButtonProps {
     className?: string;
-    onToggleFavorite?: () => void;
+    handleFavoriteToggle?: () => void;
     isFavorite?: boolean;
 }
 
 export const FavoriteButton = memo((props: FavoriteButtonProps) => {
-    const {className, onToggleFavorite, isFavorite} = props;
+    const {className, handleFavoriteToggle, isFavorite} = props;
 
     return (
         <MyIconButton
             className={classNames("favorite-button", className)}
             size={'large'}
-            onClick={onToggleFavorite}
+            onClick={handleFavoriteToggle}
         >
             {isFavorite ? <StarIcon/> : <StarOutlineIcon/>}
         </MyIconButton>

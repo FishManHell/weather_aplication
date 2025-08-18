@@ -5,7 +5,7 @@ export const weatherApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: `https://api.openweathermap.org/data/2.5/weather`,
         paramsSerializer: (params) => {
-            const usp = new URLSearchParams({ appid: process.env.REACT_APP_OPENWEATHER_KEY || '' , units: 'metric'});
+            const usp = new URLSearchParams({ appid: process.env.REACT_APP_API_KEY || '' , units: 'metric'});
             for (const key in params) {
                 usp.append(key, params[key]);
             }

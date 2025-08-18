@@ -12,7 +12,9 @@ const initialState: HourlyWeatherSchema = {
 const hourlyWeatherByCoordsSlice = createSlice({
     name: "hourlyWeather",
     initialState,
-    reducers: {},
+    reducers: {
+        resetHourlyWeatherByCoordsState: () => initialState
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchHourlyWeatherByCoords.pending, state => {
             state.isLoading = true;

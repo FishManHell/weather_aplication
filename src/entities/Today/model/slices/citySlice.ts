@@ -8,11 +8,12 @@ const initialState: CitySchema = {
     error: undefined,
 }
 
-
 const citySlice = createSlice({
     name: "city",
     initialState,
-    reducers: {},
+    reducers: {
+        resetCityState: () => initialState
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchCityPosition.pending, state => {
             state.isLoading = true

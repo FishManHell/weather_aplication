@@ -1,4 +1,4 @@
-import cls from "./SmallWeatherCard.module.scss"
+import cls from "./HourlyCard.module.scss"
 import classNames from "classnames";
 import {Card} from "@mui/joy";
 import {OneCallWeatherHourly} from "entities/Today";
@@ -14,7 +14,7 @@ interface SmallWeatherCardProps {
     loading?: boolean;
 }
 
-export const SmallWeatherCard = memo((props: SmallWeatherCardProps) => {
+export const HourlyCard = memo((props: SmallWeatherCardProps) => {
     const {className, hourlyData} = props;
 
     return (

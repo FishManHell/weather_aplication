@@ -6,6 +6,7 @@ import {buildNestedReducer} from "../config/buildNestedReducer";
 import {weatherApi} from "shared/api/weatherApi";
 import {cityReducer, hourlyWeatherByCoordsReducer} from "entities/Today";
 import {currentLocationReducer} from "entities/CurrentLocation";
+import {favoriteCitiesReducer} from "entities/Favorites";
 
 export function createReduxStore(initialState: StateSchema) {
 
@@ -20,7 +21,8 @@ export function createReduxStore(initialState: StateSchema) {
             today: {
                 location: cityReducer,
                 forecastHourly: hourlyWeatherByCoordsReducer
-            }
+            },
+            favorites: favoriteCitiesReducer
         },
         [weatherApi.reducerPath]: weatherApi.reducer,
     })

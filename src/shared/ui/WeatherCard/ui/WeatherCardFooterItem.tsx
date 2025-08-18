@@ -7,7 +7,7 @@ interface FooterContentItemProps {
     value: string
 }
 
-export const BigWeatherCardFooter = (props: FooterContentItemProps) => {
+export const WeatherCardFooterItem = (props: FooterContentItemProps) => {
     const {value, name, className} = props
     return (
         <div className={classNames("big-weather-card-footer", className)}>

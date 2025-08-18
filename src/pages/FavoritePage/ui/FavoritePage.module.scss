@@ -1,3 +1,7 @@
 .favorite-page {
-
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
 }

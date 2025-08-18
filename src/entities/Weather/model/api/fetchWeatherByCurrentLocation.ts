@@ -8,7 +8,7 @@ export const fetchWeatherByCurrentLocation = weatherApi.injectEndpoints({
         getWeatherByCity: builder.query<WeatherByCitySchema, CityWeatherParams>({
             query: (params) => {
                 const {lat, lon, units} = params
-                return `?appid=${process.env.REACT_APP_API_KEY}&lat=${lat}&lon=${lon}&units=${units}`
+                return `&lat=${lat}&lon=${lon}&units=${units}`
             },
         }),
     }),

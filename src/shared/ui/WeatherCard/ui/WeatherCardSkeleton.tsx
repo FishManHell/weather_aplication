@@ -2,14 +2,18 @@ import cls from "./BigWeatherCard.module.scss"
 import classNames from "classnames";
 import {Card, Skeleton} from "@mui/material";
 import {Box} from "@mui/joy";
+import {WeatherCardSize} from "../model/types/types";
 
 interface BigWeatherCardSkeletonProps {
     className?: string;
+    size?: WeatherCardSize
 }
 
-export const BigWeatherCardSkeleton = ({className}: BigWeatherCardSkeletonProps) => {
+export const WeatherCardSkeleton = (props: BigWeatherCardSkeletonProps) => {
+    const {className, size = WeatherCardSize.BIG} = props;
+
     return (
-        <Card className={classNames(cls["big-weather-card"], className)}>
+        <Card className={classNames(cls["weather-card"], cls[size], className)}>
             <Skeleton variant="text" width="50%" height={32} />
             <Box display="flex" justifyContent="center" my={2} alignItems="center">
                 <Skeleton variant="circular" width={90} height={90} />

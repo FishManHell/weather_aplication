@@ -1,9 +1,9 @@
 import {AxiosInstance} from "axios";
 import {UnitSwitcherSchema} from "shared/ui/UnitSwitcher";
 import {weatherApi} from "shared/api/weatherApi";
-import {CitySchema} from "entities/Today/model/types/citySchema";
-import {HourlyWeatherSchema} from "entities/Today/model/types/oneCallWeatherSchema";
-import {CurrentLocationSchema} from "entities/CurrentLocation/model/types/currentLocationSchema";
+import {HourlyWeatherSchema, CitySchema} from "entities/Today";
+import {CurrentLocationSchema} from "entities/CurrentLocation";
+import {FavoriteCitiesSchema} from "entities/Favorites";
 
 interface TodaySchema {
     location: CitySchema,
@@ -22,7 +22,8 @@ interface UiSchema {
 }
 
 interface ApiSchema {
-    today: TodaySchema
+    today: TodaySchema,
+    favorites: FavoriteCitiesSchema
 }
 
 export interface StateSchema {

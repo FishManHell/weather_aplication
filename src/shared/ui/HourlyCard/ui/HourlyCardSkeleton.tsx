@@ -1,4 +1,4 @@
-import cls from "./SmallWeatherCard.module.scss"
+import cls from "./HourlyCard.module.scss"
 import classNames from "classnames";
 import {Card, Skeleton} from "@mui/material";
 
@@ -6,7 +6,7 @@ interface SmallWeatherCardSkeletonProps {
     className?: string;
 }
 
-export const SmallWeatherCardSkeleton = ({className}: SmallWeatherCardSkeletonProps) => {
+export const HourlyCardSkeleton = ({className}: SmallWeatherCardSkeletonProps) => {
     return (
         <Card className={classNames(cls["small-weather-card"], className)}>
             <div className={cls["small-weather-card-info-wrapper"]}>

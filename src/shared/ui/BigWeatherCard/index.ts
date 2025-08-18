@@ -1,1 +1,0 @@
-export {BigWeatherCard} from "./ui/BigWeatherCard"

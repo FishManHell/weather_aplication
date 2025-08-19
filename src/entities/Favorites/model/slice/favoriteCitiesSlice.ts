@@ -23,7 +23,7 @@ const favoriteCitiesSlice = createSlice({
             }
         })
             .addCase(fetchFavoriteCities.fulfilled, (state, {payload}: PayloadAction<FavoriteCity>) => {
-                state.entities[payload.name] = {
+                state.entities[payload.id] = {
                     loading: false,
                     city: payload
                 }

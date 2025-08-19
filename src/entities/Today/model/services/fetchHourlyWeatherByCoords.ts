@@ -16,7 +16,11 @@ interface FetchHourlyWeatherByCoordsParams extends Coordinates {
 }
 
 
-export const fetchHourlyWeatherByCoords = createAsyncThunk<OneCallWeatherSchema, FetchHourlyWeatherByCoordsParams, ThunkConfig<string>>(
+export const fetchHourlyWeatherByCoords = createAsyncThunk<
+    OneCallWeatherSchema,
+    FetchHourlyWeatherByCoordsParams,
+    ThunkConfig<string>
+>(
     'hourlyWeather/fetchHourlyWeatherByCoords',
     async (params, thunkAPI) => {
     const {rejectWithValue, extra: {api}} = thunkAPI

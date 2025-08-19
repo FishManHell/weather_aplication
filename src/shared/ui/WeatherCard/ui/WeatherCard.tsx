@@ -19,8 +19,7 @@ export const WeatherCard = memo((props: WeatherCardProps) => {
 
     const footerClassName = cls["weather-card-footer-content"];
 
-    const cityName = city?.name;
-    const {isFavorite, unSubscribe, subscribe} = useFavorite(cityName, onRemoveFavorite);
+    const {isFavorite, unSubscribe, subscribe} = useFavorite(String(city?.id), onRemoveFavorite);
 
     const footerItems: Record<string, string>[] = [
         { name: 'Humidity', value: `${city?.main.humidity}%`},
@@ -30,7 +29,6 @@ export const WeatherCard = memo((props: WeatherCardProps) => {
     ];
 
     const handleFavoriteToggle = () => !isFavorite ? subscribe() : unSubscribe();
-
 
     if (loading) return <WeatherCardSkeleton size={size}/>
 

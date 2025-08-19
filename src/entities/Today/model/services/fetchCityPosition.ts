@@ -10,11 +10,11 @@ export const fetchCityPosition = createAsyncThunk<City, string, ThunkConfig<stri
     async (city, thunkApi) => {
         const {rejectWithValue, extra: {api}, dispatch} = thunkApi
         try {
-            const {data} = await api.get(`/data/2.5/weather`, {params: {q: city}});
+            const {data} = await api.get(`/data/2.5/weather?q=${city}`);
             if (!data) throw new Error()
             else {
-                const {coord: {lat, lon}, name} = data
-                setItem('city', name);
+                const {coord: {lat, lon}} = data
+                setItem('city', city);
                 dispatch(fetchHourlyWeatherByCoords({lat, lon, exclude: 'current,daily,minutely,alerts'}))
             }
             return data

@@ -6,7 +6,7 @@ import {
     favoriteCitiesActions,
     selectFavoriteCities,
 } from "entities/Favorites";
-import {MediumCard} from "shared/ui/WeatherCard";
+import {Favorite, MediumCard} from "shared/ui/WeatherCard";
 import {getItem} from "helpers/localStorage";
 import {Page} from "shared/ui/Page";
 import {useRef} from "react";
@@ -18,10 +18,10 @@ interface FavoritePageProps {
 
 const FavoritePage = (props: FavoritePageProps) => {
     const {className} = props;
-    const names = getItem<string[]>('favorites') || [];
+    const ids = getItem<Favorite[]>('favorites') || [];
     const dispatch = useAppDispatch();
 
-    const cities = useAppSelector(state => selectFavoriteCities(state, names));
+    const cities = useAppSelector(state => selectFavoriteCities(state, ids));
 
     const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -30,16 +30,15 @@ const FavoritePage = (props: FavoritePageProps) => {
         dispatch(fetchFavoriteCities(city));
     };
 
-    const onRemoveFavorite = (cityName: string) => {
-        dispatch(favoriteCitiesActions.onRemoveFavoriteCity(cityName));
+    const onRemoveFavorite = (id: string) => {
+        dispatch(favoriteCitiesActions.onRemoveFavoriteCity(id));
     }
 
     useOnUnmount(() =>  {
         dispatch(favoriteCitiesActions.resetFavoriteState())
     })
 
-
-    if (!names || !names.length) {
+    if (!ids || !ids.length) {
         return (
             <div>
                 <h1>Not Found</h1>
@@ -50,16 +49,16 @@ const FavoritePage = (props: FavoritePageProps) => {
     return (
         <Page ref={containerRef} className={classNames(cls['favorite-page'], className)}>
             <ScrollObserverWrapper
-                items={names}
-                getId={(city) => city}
+                items={ids}
+                getId={(id) => id}
                 onItemVisible={handleCityVisible}
                 containerRef={containerRef}
             >
-                {(city_name ) =>  {
+                {(id ) =>  {
                     return (
                         <MediumCard
-                            loading={cities[city_name].loading}
-                            city={cities[city_name].city}
+                            loading={cities[id].loading}
+                            city={cities[id].city}
                             onRemoveFavorite={onRemoveFavorite}
                         />
                     )

@@ -2,39 +2,40 @@ import {useCallback, useEffect, useState} from "react";
 import {getItem, setItem} from "helpers/localStorage";
 import {Favorite} from "shared/ui/WeatherCard";
 
-type FavoriteRemoveCallback = (cityName: string) => void;
+type FavoriteRemoveCallback = (id: Favorite) => void;
 
-export const useFavorite = (cityName?: string, onRemove?: FavoriteRemoveCallback) => {
+export const useFavorite = (id: Favorite, onRemove?: FavoriteRemoveCallback) => {
     const [isFavorite, setIsFavorite] = useState(false);
     const favorites = getItem<Favorite[]>("favorites") || [];
 
 
     const subscribe = useCallback(() => {
-        if (!cityName) return;
+        if (!id) return;
 
         setIsFavorite(true);
-        if (!favorites.includes(cityName)) {
-            const updated = [...favorites, cityName];
+
+        if (!favorites.includes(id)) {
+            const updated = [...favorites, id];
             setItem("favorites", updated);
         }
-    }, [cityName, favorites]);
+    }, [id, favorites]);
 
 
     const unSubscribe = useCallback(() => {
-        if (!cityName) return;
+        if (!id) return;
 
         setIsFavorite(false);
 
-        const updated = favorites.filter((fav) => fav !== cityName);
+        const updated = favorites.filter(favorite => favorite !== id);
         setItem("favorites", updated);
-        onRemove?.(cityName);
-    }, [cityName, favorites, onRemove]);
+        onRemove?.(id);
+    }, [id, favorites, onRemove]);
 
 
     useEffect(() => {
-        if (!cityName) return;
-        setIsFavorite(favorites.includes(cityName));
-    }, [cityName]);
+        if (!id) return;
+        setIsFavorite(favorites.includes(id));
+    }, [id]);
 
     return { isFavorite, subscribe, unSubscribe };
 }

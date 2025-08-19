@@ -17,8 +17,8 @@ export const NavbarWeather = ({className}: NavbarWeatherProps) => {
     const defLocation = useAppSelector(selectCurrentLocation);
     const defLocationError = useAppSelector(selectCurrentLocationError);
 
-    const { data: currentCity, error, isLoading } = useGetWeatherByCityQuery(
-        defLocation ? {...defLocation, units: "metric"} : skipToken, {pollingInterval: DELAY}
+    const { data: currentCity } = useGetWeatherByCityQuery(
+        defLocation ? defLocation : skipToken, {pollingInterval: DELAY}
     );
 
     const NavbarWeatherHeader = () => {

@@ -11,7 +11,7 @@ import {
     selectHourlyByCoords,
     selectHourlyByCoordsLoading
 } from "entities/Today";
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 import {fetchWeatherByCurrentLocation} from "entities/Weather";
 import {selectCurrentLocation} from "entities/CurrentLocation";
 import {BigCard} from "shared/ui/WeatherCard";
@@ -31,11 +31,11 @@ const TodayPage = ({className}: TodayPageProps) => {
     const hourlyLoading = useAppSelector(selectHourlyByCoordsLoading);
     const defLocation = useAppSelector(selectCurrentLocation);
 
+    const isInitialized = useRef(false);
+
     const weatherByCurrentLocation = useAppSelector(
         defLocation
-            ? fetchWeatherByCurrentLocation.endpoints?.getWeatherByCity.select(
-                {...defLocation, units: "metric"}
-            )
+            ? fetchWeatherByCurrentLocation.endpoints?.getWeatherByCity.select(defLocation)
             : () => undefined
     );
 
@@ -49,12 +49,15 @@ const TodayPage = ({className}: TodayPageProps) => {
     }
 
     useEffect(() => {
-        const city = getItem<string>('city') || weatherByCurrentLocation?.data?.name;
+        if (isInitialized.current) return;
 
-        console.log(city, "city")
-        if (!city) return
+        const city = getItem<string>("city") || weatherByCurrentLocation?.data?.name;
+
+        if (!city) return;
+        isInitialized.current = true;
+
         dispatch(fetchCityPosition(city));
-    }, [weatherByCurrentLocation?.data]);
+    }, [dispatch, weatherByCurrentLocation?.data?.name]);
 
     useOnUnmount(() => onUnmountDispatches())
 

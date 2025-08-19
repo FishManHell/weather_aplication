@@ -1,11 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {Coordinates} from "shared/types";
 import {ThunkConfig} from "app/providers/storeProvider";
-
-interface geoLocationError {
-    message: string;
-    code: number;
-}
+import {getPosition} from "../services/geolocationHelpers";
+import {geoLocationError} from "../types/currentLocationSchema";
 
 export const fetchCurrentLocation = createAsyncThunk<
     Coordinates,
@@ -15,20 +12,9 @@ export const fetchCurrentLocation = createAsyncThunk<
     'currentLocation/fetchCurrentLocation',
     async (_, thunkAPI) => {
         try {
-            return await new Promise<Coordinates>((resolve, reject) => {
-                navigator.geolocation.getCurrentPosition(
-                    ({coords: {longitude: lon, latitude: lat}}) => {
-                        return resolve({ lat, lon })
-                    },
-                    (err) => {
-                        console.error('geolocation error, fallback:', err);
-                        reject({ message: err.message, code: err.code });
-                    },
-                    {enableHighAccuracy: true, timeout: 10000, maximumAge: 0}
-                );
-            });
+            return await getPosition();
         } catch (error) {
-            return thunkAPI.rejectWithValue({ message: 'Geolocation failed', code: 1 });
+            return thunkAPI.rejectWithValue({ message: "Geolocation failed", code: 1 });
         }
     }
 );

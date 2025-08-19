@@ -10,3 +10,8 @@ export interface CurrentLocationSchema {
     error?: CurrentLocationError,
     status?: string;
 }
+
+export interface geoLocationError {
+    message: string;
+    code: number;
+}

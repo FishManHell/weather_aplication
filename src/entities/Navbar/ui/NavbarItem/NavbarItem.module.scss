@@ -4,5 +4,5 @@
 }
 
 .navbar-item-text {
-  font-size: var(--sm-plus-text);
+  font-size: clamp(1rem, 5vw, 1.875rem);
 }

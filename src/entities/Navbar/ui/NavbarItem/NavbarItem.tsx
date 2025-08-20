@@ -10,7 +10,7 @@ interface NavbarItemProps extends INavbarItem {
 export const NavbarItem = (props: NavbarItemProps) => {
     const {className, path, text} = props
     return (
-        <AppLink className={classNames(cls["navbar-item"], className)} to={path}>
+        <AppLink className={classNames(cls["navbar-item"], className)} to={path} inverse>
             <span className={cls["navbar-item-text"]}>{text}</span>
         </AppLink>
     );

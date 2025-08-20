@@ -1,7 +1,6 @@
 import {UnitSwitcherSchema, UnitType} from "../types/unitSwitcherSchema";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-
 const initialState: UnitSwitcherSchema = {
     unit: "°C",
 }

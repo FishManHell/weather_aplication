@@ -1,7 +1,7 @@
-import {Input} from "@mui/joy";
-import SearchIcon from '@mui/icons-material/Search';
 import cls from "./Search.module.scss"
 import classNames from "classnames";
+import {Input} from "@mui/joy";
+import SearchIcon from '@mui/icons-material/Search';
 import {ChangeEvent, useEffect, useState} from "react";
 import {useDebounce} from "shared/lib/hooks";
 
@@ -33,7 +33,7 @@ export const Search = (props: SearchProps) => {
                 value={searchValue}
                 onChange={onChange}
                 className={cls['search-input']}
-                startDecorator={<SearchIcon className={cls['search-input-icon']} sx={{ fontSize: 45 }}/>}
+                startDecorator={<SearchIcon className={cls['search-input-icon']}/>}
                 placeholder={"Search location..."}
             />
         </div>

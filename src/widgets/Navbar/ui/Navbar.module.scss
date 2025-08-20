@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 140px;
+  height: var(--navbar-height);
 }
 
 .navbar-theme-switcher {

@@ -1,3 +1,5 @@
 .page {
-  height: calc(100vh - 160px);
+  padding: 15px 0;
+  height: calc(100vh - (var(--navbar-height) + 30px));
+
 }

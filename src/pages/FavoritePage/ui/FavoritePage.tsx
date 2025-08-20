@@ -11,6 +11,7 @@ import {getItem} from "helpers/localStorage";
 import {Page} from "shared/ui/Page";
 import {useRef} from "react";
 import classNames from "classnames";
+import {CustomTypography} from "shared/ui/CustomTypography";
 
 interface FavoritePageProps {
     className?: string;
@@ -40,9 +41,14 @@ const FavoritePage = (props: FavoritePageProps) => {
 
     if (!ids || !ids.length) {
         return (
-            <div>
-                <h1>Not Found</h1>
-            </div>
+            <Page className={classNames(cls['favorite-empty-page'], className)}>
+                <CustomTypography
+                    level={'h1'}
+                    inverse
+                    responsiveSizes={{ h1: "clamp(35px, 5vw, 60px)" }}>
+                    No favorite cities yet
+                </CustomTypography>
+            </Page>
         )
     }
 

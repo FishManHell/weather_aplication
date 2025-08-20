@@ -18,6 +18,7 @@ import {BigCard} from "shared/ui/WeatherCard";
 import {HourlyCardsWrapper} from "shared/ui/HourlyCard";
 import {Page} from "shared/ui/Page";
 import {getItem} from "helpers/localStorage";
+import {selectUnitSwitcherUnit} from "shared/ui/UnitSwitcher";
 
 interface TodayPageProps {
     className?: string;
@@ -30,12 +31,17 @@ const TodayPage = ({className}: TodayPageProps) => {
     const hourly = useAppSelector(selectHourlyByCoords);
     const hourlyLoading = useAppSelector(selectHourlyByCoordsLoading);
     const defLocation = useAppSelector(selectCurrentLocation);
+    const unit = useAppSelector(selectUnitSwitcherUnit);
+
+    const units =  unit === "°C" ? "metric" : "imperial"
 
     const isInitialized = useRef(false);
 
     const weatherByCurrentLocation = useAppSelector(
         defLocation
-            ? fetchWeatherByCurrentLocation.endpoints?.getWeatherByCity.select(defLocation)
+            ? fetchWeatherByCurrentLocation.endpoints?.getWeatherByCity.select(
+                {...defLocation, units}
+            )
             : () => undefined
     );
 
@@ -66,7 +72,7 @@ const TodayPage = ({className}: TodayPageProps) => {
             <Search onSearch={onFetchCityCoordinates} />
             <BigCard city={location} loading={locationLoading} />
 
-            <section className={cls['today-page-hourly-container']}>
+            <section className={cls["today-page-hourly-container"]}>
                 <HourlyCardsWrapper data={hourly} loading={hourlyLoading}/>
             </section>
         </Page>

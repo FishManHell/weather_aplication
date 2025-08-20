@@ -6,6 +6,7 @@ import {selectUnitSwitcherUnit} from "../model/selectors/unitSwitcher";
 import {UnitType} from "../model/types/unitSwitcherSchema";
 import {unitSwitcherActions} from "../model/slice/unitSwitcherSlice";
 import {unitSwitcherStyles} from "../model/styles/swticherStyles";
+import {setItem} from "helpers/localStorage";
 
 export const UnitSwitcher = memo((props: SwitchProps) => {
     const {className, sx, onChange, checked, startDecorator, endDecorator, ...otherProps} = props
@@ -16,6 +17,7 @@ export const UnitSwitcher = memo((props: SwitchProps) => {
 
     const onChangeUnitType = () => {
         const newUnit: UnitType = isCelsius ? '°F' : '°C';
+        setItem('unit', newUnit)
         dispatch(unitSwitcherActions.setUnitType(newUnit));
     }
 

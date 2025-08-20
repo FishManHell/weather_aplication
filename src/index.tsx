@@ -8,6 +8,7 @@ import ThemeProvider from "./app/providers/ThemeProvider/ui/ThemeProvider";
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
+
 root.render(
     <BrowserRouter>
         <StoreProvider>

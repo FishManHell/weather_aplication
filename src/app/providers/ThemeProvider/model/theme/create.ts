@@ -10,6 +10,17 @@ export const theme = extendTheme({
     components: COMPONENTS,
     colorSchemes: {
         light: Light,
-        dark: Dark
+        dark: Dark,
+    },
+    typography: {
+        "body-lg": {
+            fontSize: "clamp(14px, 2vw, 20px)"
+        },
+        "body-md": {
+            fontSize: "clamp(12px, 1.6vw, 16px)",
+        },
+        h3: {
+            fontSize: "clamp(20px, 2.5vw, 28px)",
+        },
     }
 })

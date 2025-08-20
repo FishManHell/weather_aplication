@@ -1,4 +1,4 @@
-import cls from "./BigWeatherCard.module.scss"
+import cls from "./WeatherCard.module.scss"
 import classNames from "classnames";
 import {Card, Skeleton} from "@mui/material";
 import {Box} from "@mui/joy";

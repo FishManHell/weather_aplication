@@ -1,3 +1,7 @@
 .app-link {
-  color: var(--txt-color);
+
+
+  &:hover {
+    text-decoration: none;
+  }
 }

@@ -12,9 +12,9 @@ export enum WeatherExclude {
 }
 
 interface FetchHourlyWeatherByCoordsParams extends Coordinates {
-    exclude: string
+    exclude: string;
+    units: string
 }
-
 
 export const fetchHourlyWeatherByCoords = createAsyncThunk<
     OneCallWeatherSchema,

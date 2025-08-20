@@ -1,6 +1,6 @@
-import cls from "./BigWeatherCard.module.scss"
+import cls from "./WeatherCard.module.scss"
 import classNames from "classnames";
-import {Card, SvgIcon, Typography} from "@mui/material";
+import {Card, SvgIcon, Typography} from "@mui/joy";
 import PlaceIcon from "@mui/icons-material/Place";
 import TemperatureIcon from "shared/assets/icons/Temperature_.svg";
 import {Temperature} from "shared/ui/Temperature";
@@ -11,11 +11,13 @@ import {WeatherCardFooterItem} from "./WeatherCardFooterItem";
 import {FavoriteButton} from "shared/ui/FavoriteButton";
 import {WeatherCardSkeleton} from "./WeatherCardSkeleton";
 import {WeatherCardSize, WeatherCardProps} from "../model/types/types";
-import {useFavorite} from "shared/lib/hooks/useFavorite/useFavorite";
-import {memo} from "react";
+import {useFavorite} from "shared/lib/hooks";
+import {memo, useCallback, useState} from "react";
+import {Toast} from "shared/ui/Toast";
 
 export const WeatherCard = memo((props: WeatherCardProps) => {
     const {className, city, loading, size = WeatherCardSize.BIG, onRemoveFavorite} = props;
+    const [isOpenToast, setIsOpenToast] = useState<boolean>(false);
 
     const footerClassName = cls["weather-card-footer-content"];
 
@@ -28,7 +30,16 @@ export const WeatherCard = memo((props: WeatherCardProps) => {
         { name: 'Wind', value: `${((city?.wind?.speed ?? 0) * 2.23694).toFixed(1)}mph`},
     ];
 
-    const handleFavoriteToggle = () => !isFavorite ? subscribe() : unSubscribe();
+    const handleFavoriteToggle = () => {
+        if (!isFavorite) {
+            setIsOpenToast(true)
+            subscribe()
+        } else {
+            unSubscribe()
+        }
+    };
+
+    const onCloseToast = useCallback(() => setIsOpenToast(false), [])
 
     if (loading) return <WeatherCardSkeleton size={size}/>
 
@@ -69,6 +80,12 @@ export const WeatherCard = memo((props: WeatherCardProps) => {
             <FavoriteButton
                 handleFavoriteToggle={handleFavoriteToggle}
                 isFavorite={isFavorite}
+            />
+            <Toast
+                open={isOpenToast}
+                onClose={onCloseToast}
+                message={"City was just added to favorites"}
+                duration={1500}
             />
         </Card>
     );

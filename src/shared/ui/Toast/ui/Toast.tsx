@@ -23,10 +23,9 @@ interface ToastProps {
     severity?: ToastSeverity;
     duration?: number;
     className?: string;
-    inverted?: boolean;
 }
 export const Toast = memo((props: ToastProps) => {
-    const {open, onClose, severity = ToastSeverity.Success, message, duration = 300, inverted = true, className} = props
+    const {open, onClose, severity = ToastSeverity.Success, message, duration = 300, className} = props
 
     return (
         <Snackbar
@@ -34,8 +33,13 @@ export const Toast = memo((props: ToastProps) => {
             onClose={onClose}
             autoHideDuration={duration}
             className={classNames(cls["toast"], className)}
+            sx={{padding: 0, border: "none"}}
         >
-            <Alert color={severity as JoyAlertColor} variant="soft" className={cls["toast-alert"]}>
+            <Alert
+                color={severity as JoyAlertColor}
+                variant={"soft"}
+                className={cls["toast-alert"]}
+            >
                 {message}
             </Alert>
         </Snackbar>

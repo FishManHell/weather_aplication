@@ -19,7 +19,13 @@ export const ThemeSwitcher = memo((props: ThemeSwitcherProps) => {
         <IconButton
             className={classNames(cls["theme-switcher"], className)}
             onClick={onToggle}
-            sx={{"&:hover": {"backgroundColor": 'transparent'}}}
+            sx={{
+                "&:hover": {
+                    backgroundColor: "transparent",
+                    color: "inherit",
+                    "--Icon-color": "inherit"
+                },
+            }}
         >
             <ThemeIcon/>
         </IconButton>

@@ -1,6 +1,10 @@
 .navbar-item {
   display: inline-block;
   width: 200px;
+
+  @media screen and (max-width: 650px) {
+    width: auto;
+  }
 }
 
 .navbar-item-text {

@@ -22,7 +22,6 @@ export const NavbarWeather = ({className}: NavbarWeatherProps) => {
 
     const isCelsius = unit === "°C";
 
-
     const { data: currentCity } = useGetWeatherByCityQuery(
         defLocation
             ? {...defLocation, units: isCelsius ? "metric" : "imperial"}

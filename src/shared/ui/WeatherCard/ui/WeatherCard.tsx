@@ -84,7 +84,7 @@ export const WeatherCard = memo((props: WeatherCardProps) => {
             <Toast
                 open={isOpenToast}
                 onClose={onCloseToast}
-                message={"City was just added to favorites"}
+                message={`${city?.name} was just added to favorites`}
                 duration={1500}
             />
         </Card>

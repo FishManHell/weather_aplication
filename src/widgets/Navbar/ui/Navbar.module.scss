@@ -1,9 +1,9 @@
 .navbar {
   position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   height: var(--navbar-height);
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-theme-switcher {
@@ -11,4 +11,10 @@
   position: absolute;
   top: 20px;
   right: 5px;
+
+  @media screen and (max-width: 650px) {
+    position: static;
+    margin-left: auto;
+    z-index: 11;
+  }
 }

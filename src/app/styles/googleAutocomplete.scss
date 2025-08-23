@@ -1,0 +1,31 @@
+.pac-container, .pac-log {
+  font-family: 'Roboto', sans-serif;
+  border-radius: 10px;
+  &:after {
+    content: "";
+    display: none;
+  }
+
+  .pac-item {
+    cursor: pointer;
+    color: #000000;
+    font-weight: 600;
+    padding: 8px 10px;
+    border-top-width: 3px;
+    &:first-child {
+      border-top: none;
+      border-top-left-radius: inherit;
+      border-top-right-radius: inherit;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: inherit;
+      border-bottom-right-radius: inherit;
+    }
+  }
+}
+
+
+.pac-item > span:not(.pac-item-query) {
+  display: none;
+}

@@ -2,7 +2,6 @@ import {weatherApi} from "shared/api/weatherApi";
 import {WeatherByCitySchema} from "../types/weatherByCitySchema";
 import {CityWeatherParams} from "../types/cityWeatherParams";
 
-
 const defaultParams = {appid: process.env.REACT_APP_API_KEY || ''};
 
 export const fetchWeatherByCurrentLocation = weatherApi.injectEndpoints({
@@ -17,4 +16,4 @@ export const fetchWeatherByCurrentLocation = weatherApi.injectEndpoints({
     }),
 })
 
-export const {useGetWeatherByCityQuery} = fetchWeatherByCurrentLocation
+export const {useGetWeatherByCityQuery, endpoints} = fetchWeatherByCurrentLocation

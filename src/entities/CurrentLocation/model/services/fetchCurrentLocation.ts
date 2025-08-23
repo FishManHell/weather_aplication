@@ -13,8 +13,11 @@ export const fetchCurrentLocation = createAsyncThunk<
     async (_, thunkAPI) => {
         try {
             return await getPosition();
-        } catch (error) {
-            return thunkAPI.rejectWithValue({ message: "Geolocation failed", code: 1 });
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue({
+                message: error.message || "Geolocation failed",
+                code: error.code ?? -1
+            });
         }
     }
 );

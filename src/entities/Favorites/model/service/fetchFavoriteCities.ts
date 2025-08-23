@@ -7,10 +7,10 @@ export const fetchFavoriteCities = createAsyncThunk<FavoriteCity, string, ThunkC
     'favorite/fetchFavoriteCities',
     async (id, thunkAPI) => {
         const {extra: {api}, rejectWithValue, getState} = thunkAPI;
-        const units =  getState().ui.switchers.unit.unit === "°C" ? "metric" : "imperial"
+        const  temperatureUnit =  getState().ui.switchers.unit.temperatureUnit
 
         try {
-            const {data} = await api.get(`/data/2.5/weather`, {params: {id, units}})
+            const {data} = await api.get(`/data/2.5/weather`, {params: {id, units: temperatureUnit}})
             if (!data) throw new Error();
             return data
         } catch (error) {

@@ -1,13 +1,30 @@
 import {Coordinates} from "shared/types";
 import {geoLocationError} from "../types/currentLocationSchema";
 
-type PromiseParams = {
-    resolve: (coords: Coordinates) => void;
-    reject: (error: geoLocationError) => void;
-};
+type Resolve = (coords: Coordinates) => void;
+type Reject = (error: geoLocationError) => void ;
 
-export type ResolveParams = (coords: Coordinates) => void;
+export interface SettledRef {
+    current: boolean;
+}
+
+interface PromiseParams {
+    resolve: Resolve;
+    reject: Reject;
+}
+
+interface IError extends PromiseParams {
+    settledRef: SettledRef
+}
+
+interface ISuccess extends Omit<PromiseParams, 'reject'> {
+    settledRef: SettledRef
+}
+
+export type SuccessCallback = ({resolve, settledRef}: ISuccess) => (geolocationPosition: GeolocationPosition) => void;
+
+export type ErrorCallback = ({ resolve, reject, settledRef}: IError) => (err: GeolocationPositionError) => void
 
 export type WatchPositionFallback = ({resolve, reject}: PromiseParams) => void;
 
-export type ErrorCallbackFactory = ({ resolve, reject }: PromiseParams) => (err: GeolocationPositionError) => void
+export type GetPositionCallback = () => Promise<Coordinates>

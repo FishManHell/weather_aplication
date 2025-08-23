@@ -7,7 +7,7 @@ import {skipToken} from "@reduxjs/toolkit/query";
 import {WeatherIcon} from "shared/ui/WeatherIcon";
 import {useAppSelector} from "shared/lib/hooks";
 import {CustomTypography} from "shared/ui/CustomTypography";
-import {selectUnitSwitcherUnit} from "shared/ui/UnitSwitcher";
+import {selectTemperatureUnit} from "shared/ui/UnitSwitcher";
 
 const DELAY = 60_000
 
@@ -16,28 +16,28 @@ interface NavbarWeatherProps {
 }
 
 export const NavbarWeather = ({className}: NavbarWeatherProps) => {
-    const defLocation = useAppSelector(selectCurrentLocation);
-    const defLocationError = useAppSelector(selectCurrentLocationError);
-    const unit = useAppSelector(selectUnitSwitcherUnit);
+    const coordinates = useAppSelector(selectCurrentLocation);
+    const errorCoordinates = useAppSelector(selectCurrentLocationError);
+    const units = useAppSelector(selectTemperatureUnit);
 
-    const isCelsius = unit === "°C";
+    const shouldFetch = coordinates && !errorCoordinates;
 
     const { data: currentCity } = useGetWeatherByCityQuery(
-        defLocation
-            ? {...defLocation, units: isCelsius ? "metric" : "imperial"}
-            : skipToken,
+        shouldFetch ? {...coordinates, units} : skipToken,
         {pollingInterval: DELAY}
     );
 
     const NavbarWeatherHeader = () => {
-        if (defLocationError) {
+        if (errorCoordinates) {
             return (
                 <header className={cls['navbar-weather-header']}>
                     <CustomTypography
                         className={cls['navbar-weather-header-error-title']}
                         level={'h1'}
+                        sx={{color: "#d50000"}}
+                        responsiveSizes={{ h1: "clamp(30px, 5vw, 35px)" }}
                     >
-                        Location access denied
+                        Location denied
                     </CustomTypography>
                 </header>
             )

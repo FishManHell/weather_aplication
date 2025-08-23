@@ -12,7 +12,7 @@ export const ModalOverlayStyles = {
         height: "100%",
         left: 0,
         top: 0,
-        backgroundColor: "#37474f",
+        backgroundColor: "#039be5",
         opacity: 0.95,
         zIndex: 1,
     },

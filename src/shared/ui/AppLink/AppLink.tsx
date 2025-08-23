@@ -25,6 +25,7 @@ export const AppLink = (props: AppLinkProps) => {
                         ? theme.palette.text.secondary
                         : theme.palette.text.primary
                 },
+                fontWeight: "600",
                 ...sx
             }}
             {...otherProps}

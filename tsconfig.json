@@ -9,12 +9,13 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "types": ["google.maps", "node"],
     "baseUrl": ".",
     "strict": true,
     "paths": {
       "*": ["./src/*"],
       "@mui/material": ["./node_modules/@mui/joy"]
-    },
+    }
   },
   "ts-node": {
     "compilerOptions": {

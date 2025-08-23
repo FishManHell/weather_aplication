@@ -2,40 +2,44 @@ import cls from "./Search.module.scss"
 import classNames from "classnames";
 import {Input} from "@mui/joy";
 import SearchIcon from '@mui/icons-material/Search';
-import {ChangeEvent, useEffect, useState} from "react";
-import {useDebounce} from "shared/lib/hooks";
+import {usePlacesWidget} from "react-google-autocomplete";
 
 interface SearchProps {
     className?: string;
-    onSearch?: (debounceValue: string) => void;
-    delay?: number;
+    onSearch?: (city: string) => void;
 }
 
 export const Search = (props: SearchProps) => {
-    const {className, onSearch, delay} = props
-    const [searchValue, setSearchValue] = useState("");
-    const debouncedSearchValue = useDebounce(searchValue, delay);
+    const {className, onSearch} = props;
 
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value
-        setSearchValue(value)
-    };
+    const { ref } = usePlacesWidget<HTMLInputElement>({
+        apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
+        language: "en-US",
+        options: {
+            types: ["(cities)"]
+        },
+        onPlaceSelected: (place: google.maps.places.PlaceResult) => {
+            const city = place.address_components?.find(c => {
+                return c.types.includes("locality")
+            });
 
-    useEffect(() => {
-        if (onSearch && debouncedSearchValue.length) {
-            onSearch(debouncedSearchValue);
-        }
-    }, [debouncedSearchValue]);
+            if (!city) return;
+
+            onSearch?.(city?.long_name);
+
+            console.log("Chosen city:", place);
+        },
+    });
 
     return (
         <div className={classNames(cls['search-container'], className)}>
             <Input
-                value={searchValue}
-                onChange={onChange}
+                placeholder={"Search location..."}
+                slotProps={{input: { ref}}}
                 className={cls['search-input']}
                 startDecorator={<SearchIcon className={cls['search-input-icon']}/>}
-                placeholder={"Search location..."}
             />
         </div>
     )
+
 };

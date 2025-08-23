@@ -12,13 +12,11 @@ import {
     selectHourlyByCoordsLoading
 } from "entities/Today";
 import {useEffect, useRef} from "react";
-import {fetchWeatherByCurrentLocation} from "entities/Weather";
 import {selectCurrentLocation} from "entities/CurrentLocation";
 import {BigCard} from "shared/ui/WeatherCard";
 import {HourlyCardsWrapper} from "shared/ui/HourlyCard";
 import {Page} from "shared/ui/Page";
 import {getItem} from "helpers/localStorage";
-import {selectUnitSwitcherUnit} from "shared/ui/UnitSwitcher";
 
 interface TodayPageProps {
     className?: string;
@@ -30,23 +28,13 @@ const TodayPage = ({className}: TodayPageProps) => {
     const locationLoading = useAppSelector(selectCityLoading);
     const hourly = useAppSelector(selectHourlyByCoords);
     const hourlyLoading = useAppSelector(selectHourlyByCoordsLoading);
-    const defLocation = useAppSelector(selectCurrentLocation);
-    const unit = useAppSelector(selectUnitSwitcherUnit);
 
-    const units =  unit === "°C" ? "metric" : "imperial"
+    const defLocation = useAppSelector(selectCurrentLocation);
 
     const isInitialized = useRef(false);
 
-    const weatherByCurrentLocation = useAppSelector(
-        defLocation
-            ? fetchWeatherByCurrentLocation.endpoints?.getWeatherByCity.select(
-                {...defLocation, units}
-            )
-            : () => undefined
-    );
-
     const onFetchCityCoordinates = (city: string) => {
-        dispatch(fetchCityPosition(city));
+        dispatch(fetchCityPosition({city, type: "city"}));
     }
 
     const onUnmountDispatches = () => {
@@ -57,13 +45,21 @@ const TodayPage = ({className}: TodayPageProps) => {
     useEffect(() => {
         if (isInitialized.current) return;
 
-        const city = getItem<string>("city") || weatherByCurrentLocation?.data?.name;
+        const city = getItem<string>("city")
 
-        if (!city) return;
-        isInitialized.current = true;
+        if (city) {
+            dispatch(fetchCityPosition({ type: "city", city }));
+            isInitialized.current = true;
+            return;
+        }
 
-        dispatch(fetchCityPosition(city));
-    }, [dispatch, weatherByCurrentLocation?.data?.name]);
+        if (!city && defLocation) {
+            dispatch(fetchCityPosition({ type: "coords", ...defLocation }));
+            isInitialized.current = true;
+            return;
+        }
+    }, [dispatch, defLocation]);
+
 
     useOnUnmount(() => onUnmountDispatches())
 

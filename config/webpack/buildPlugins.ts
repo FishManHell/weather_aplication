@@ -14,7 +14,10 @@ export const buildPlugins = (options: BuildOptions): WebpackPluginInstance[] => 
         __PROJECT__: JSON.stringify(project)
     }
 
-    if (!isDev) definePluginVariables['process.env.REACT_APP_API_KEY'] = JSON.stringify(process.env.REACT_APP_API_KEY)
+    if (!isDev) {
+        definePluginVariables['process.env.REACT_APP_API_KEY'] = JSON.stringify(process.env.REACT_APP_API_KEY)
+        definePluginVariables['process.env.REACT_APP_GOOGLE_API_KEY'] = JSON.stringify(process.env.REACT_APP_GOOGLE_API_KEY)
+    }
 
     const devPlugins = [
         new ReactRefreshWebpackPlugin({

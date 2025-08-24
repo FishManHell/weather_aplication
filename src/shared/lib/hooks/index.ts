@@ -4,4 +4,5 @@ export * from "./useScrollObserver/useScrollObserver"
 export * from "./useOnUnmount/useOnUnmount"
 export * from "./useAppSelector/useAppSelector"
 export * from "./useFavorite/useFavorite"
+export * from "./useControlledInput/useControlledInput"
 

@@ -1,15 +1,15 @@
 import {weatherApi} from "shared/api/weatherApi";
 import {WeatherByCitySchema} from "../types/weatherByCitySchema";
-import {CityWeatherParams} from "../types/cityWeatherParams";
+import {Coordinates} from "shared/types";
 
-const defaultParams = {appid: process.env.REACT_APP_API_KEY || ''};
+const defaultParams = {appid: process.env.REACT_APP_API_KEY || '', units: 'metric'};
 
 export const fetchWeatherByCurrentLocation = weatherApi.injectEndpoints({
     endpoints: (builder) => ({
-        getWeatherByCity: builder.query<WeatherByCitySchema, CityWeatherParams>({
+        getWeatherByCity: builder.query<WeatherByCitySchema, Coordinates>({
             query: (params) => {
-                const {lat, lon, units} = params
-                const usp = new URLSearchParams({ ...defaultParams, units, lat: String(lat), lon: String(lon)});
+                const {lat, lon} = params
+                const usp = new URLSearchParams({ ...defaultParams, lat: String(lat), lon: String(lon)});
                 return `?${usp.toString()}`;
             },
         }),

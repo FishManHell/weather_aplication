@@ -14,7 +14,7 @@ export const buildPlugins = (options: BuildOptions): WebpackPluginInstance[] => 
     }
 
     if (!isDev) {
-        const envVars = ['REACT_APP_API_KEY', 'REACT_APP_GOOGLE_API_KEY'];
+        const envVars: string[] = ['REACT_APP_API_KEY', 'REACT_APP_GOOGLE_API_KEY'];
 
         envVars.forEach((key) => {
             definePluginVariables[`process.env.${key}`] = JSON.stringify(process.env[key]);

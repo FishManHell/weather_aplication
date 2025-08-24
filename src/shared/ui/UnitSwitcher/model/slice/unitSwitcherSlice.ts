@@ -3,8 +3,6 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState: UnitSwitcherSchema = {
     unit: "°C",
-    temperatureUnit: "metric"
-
 }
 
 
@@ -14,7 +12,6 @@ const unitSwitcherSlice = createSlice({
     reducers: {
         setUnitType: (state, {payload}: PayloadAction<UnitType>) => {
             state.unit = payload;
-            state.temperatureUnit = payload === "°C" ? "metric" : "imperial";
         }
     }
 })

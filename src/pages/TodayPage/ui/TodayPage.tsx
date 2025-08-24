@@ -71,6 +71,7 @@ const TodayPage = ({className}: TodayPageProps) => {
             <section className={cls["today-page-hourly-container"]}>
                 <HourlyCardsWrapper data={hourly} loading={hourlyLoading}/>
             </section>
+
         </Page>
     );
 };

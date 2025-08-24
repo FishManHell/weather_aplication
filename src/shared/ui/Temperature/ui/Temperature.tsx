@@ -15,9 +15,11 @@ export const Temperature: FC<TemperatureProps> = (props) => {
     const {className, level = 'body-lg', decimals, value} = props;
     const unit = useAppSelector(selectUnitSwitcherUnit);
 
+    const displayValue = unit === "°F" ? value * 9 / 5 + 32 : value;
+
     return (
         <Typography className={classNames("temperature", className)} level={level}>
-            {value.toFixed(decimals)}{unit}
+            {displayValue.toFixed(decimals)}{unit}
         </Typography>
     );
 };

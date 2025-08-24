@@ -7,10 +7,9 @@ import {setItem} from "helpers/localStorage";
 export const fetchCityPosition = createAsyncThunk<City, FetchCityPositionParams, ThunkConfig<string>>(
     'city/fetchCityPosition',
     async (params, thunkApi) => {
-        const {rejectWithValue, extra: {api}, dispatch, getState} = thunkApi;
-        const  units =  getState().ui.switchers.unit.temperatureUnit
+        const {rejectWithValue, extra: {api}, dispatch} = thunkApi;
 
-        const queryParams: Record<string, string | number> = { units };
+        const queryParams: Record<string, string | number> = {};
 
         if (params.type === "city") queryParams.q = params.city;
         else {
@@ -23,11 +22,7 @@ export const fetchCityPosition = createAsyncThunk<City, FetchCityPositionParams,
             if (!data) throw new Error();
             else {
                 setItem('city', data.name);
-                dispatch(fetchHourlyWeatherByCoords({
-                    ...data.coord,
-                    exclude: 'current,daily,minutely,alerts',
-                    units
-                }))
+                dispatch(fetchHourlyWeatherByCoords({...data.coord, exclude: 'current,daily,minutely,alerts'}))
             }
             return data
         } catch (error) {

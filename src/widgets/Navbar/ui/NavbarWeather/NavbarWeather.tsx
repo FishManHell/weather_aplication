@@ -7,7 +7,6 @@ import {skipToken} from "@reduxjs/toolkit/query";
 import {WeatherIcon} from "shared/ui/WeatherIcon";
 import {useAppSelector} from "shared/lib/hooks";
 import {CustomTypography} from "shared/ui/CustomTypography";
-import {selectTemperatureUnit} from "shared/ui/UnitSwitcher";
 
 const DELAY = 60_000
 
@@ -18,12 +17,11 @@ interface NavbarWeatherProps {
 export const NavbarWeather = ({className}: NavbarWeatherProps) => {
     const coordinates = useAppSelector(selectCurrentLocation);
     const errorCoordinates = useAppSelector(selectCurrentLocationError);
-    const units = useAppSelector(selectTemperatureUnit);
 
     const shouldFetch = coordinates && !errorCoordinates;
 
     const { data: currentCity } = useGetWeatherByCityQuery(
-        shouldFetch ? {...coordinates, units} : skipToken,
+        shouldFetch ? coordinates : skipToken,
         {pollingInterval: DELAY}
     );
 

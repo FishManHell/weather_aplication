@@ -5,7 +5,6 @@ import {WebpackPluginInstance, HotModuleReplacementPlugin, ProgressPlugin, Defin
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import Dotenv from 'dotenv-webpack';
 
-
 export const buildPlugins = (options: BuildOptions): WebpackPluginInstance[] => {
     const {isDev, project, paths: {html: template}} = options
 
@@ -15,8 +14,10 @@ export const buildPlugins = (options: BuildOptions): WebpackPluginInstance[] => 
     }
 
     if (!isDev) {
-        definePluginVariables['process.env.REACT_APP_API_KEY'] = JSON.stringify(process.env.REACT_APP_API_KEY)
-        definePluginVariables['process.env.REACT_APP_GOOGLE_API_KEY'] = JSON.stringify(process.env.REACT_APP_GOOGLE_API_KEY)
+        Object.assign(definePluginVariables, {
+            REACT_APP_API_KEY: JSON.stringify(process.env.REACT_APP_API_KEY),
+            REACT_APP_GOOGLE_API_KEY: JSON.stringify(process.env.REACT_APP_GOOGLE_API_KEY)
+        })
     }
 
     const devPlugins = [

@@ -16,16 +16,25 @@ export const Search = memo((props: SearchProps) => {
     const {className, onSearch} = props;
     const {value, onChangeInputValue: onChange, onChangeValue, reset} = useControlledInput();
 
+    const resetStyles = {
+        position: "absolute",
+        top: "50%",
+        right: "10px",
+        transform: "translateY(-50%)",
+        display: "flex",
+        alignItems: "center",
+        padding: 0,
+        cursor: "pointer",
+        "&:hover": { backgroundColor: "transparent" },
+        visibility: value ? "visible" : "hidden",
+    }
+
     const { ref } = usePlacesWidget<HTMLInputElement>({
         apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
         language: "en-US",
         options: {types: ["(cities)"],},
         onPlaceSelected
     });
-
-    const clearBtnMods = {
-        [cls['visible']]: !!value
-    }
 
     function onPlaceSelected(place: google.maps.places.PlaceResult) {
         const city = place.address_components?.find(c => {
@@ -57,11 +66,7 @@ export const Search = memo((props: SearchProps) => {
             />
             <SearchIcon className={cls['search-input-icon']} sx={{fontSize: "clamp(25px, 4vw, 35px)"}}/>
 
-            <IconButton
-                onClick={reset}
-                className={classNames(cls['search-input-icon-reset'], clearBtnMods)}
-                sx={{"&:hover": {backgroundColor: "transparent"}}}
-            >
+            <IconButton onClick={reset} className={cls['search-input-icon-reset']} sx={resetStyles}>
                 <ClearIcon/>
             </IconButton>
         </div>

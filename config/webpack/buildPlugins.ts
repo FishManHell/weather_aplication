@@ -14,11 +14,13 @@ export const buildPlugins = (options: BuildOptions): WebpackPluginInstance[] => 
     }
 
     if (!isDev) {
-        Object.assign(definePluginVariables, {
-            REACT_APP_API_KEY: JSON.stringify(process.env.REACT_APP_API_KEY),
-            REACT_APP_GOOGLE_API_KEY: JSON.stringify(process.env.REACT_APP_GOOGLE_API_KEY)
-        })
+        const envVars = ['REACT_APP_API_KEY', 'REACT_APP_GOOGLE_API_KEY'];
+
+        envVars.forEach((key) => {
+            definePluginVariables[`process.env.${key}`] = JSON.stringify(process.env[key]);
+        });
     }
+
 
     const devPlugins = [
         new ReactRefreshWebpackPlugin({

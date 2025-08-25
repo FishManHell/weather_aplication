@@ -1,7 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {fetchHourlyWeatherByCoords} from "entities/Today/model/services/fetchHourlyWeatherByCoords";
-import {HourlyWeatherSchema, OneCallWeatherSchema} from "entities/Today/model/types/oneCallWeatherSchema";
-
+import {fetchHourlyWeatherByCoords} from "../services/fetchHourlyWeatherByCoords";
+import {HourlyWeatherSchema, OneCallWeatherSchema} from "../types/oneCallWeatherSchema";
 
 const initialState: HourlyWeatherSchema = {
     hourly: [],
@@ -27,6 +26,12 @@ const hourlyWeatherByCoordsSlice = createSlice({
                     .filter((hour) => {
                         return new Date(hour.dt * 1000).getHours() % 3 === 0
                     });
+
+                console.log(payload.hourly
+                    .slice(0, 24)
+                    .filter((hour) => {
+                        return new Date(hour.dt * 1000).getHours() % 3 === 0
+                    }))
             })
             .addCase(fetchHourlyWeatherByCoords.rejected, (state, error) => {
                 state.isLoading = false;

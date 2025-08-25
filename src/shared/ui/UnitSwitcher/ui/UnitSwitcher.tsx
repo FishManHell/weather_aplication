@@ -9,7 +9,7 @@ import {unitSwitcherStyles} from "../model/styles/swticherStyles";
 import {setItem} from "helpers/localStorage";
 
 export const UnitSwitcher = memo((props: SwitchProps) => {
-    const {className, sx, onChange, checked, startDecorator, endDecorator, ...otherProps} = props
+    const {className, ...otherProps} = props
     const dispatch = useAppDispatch();
     const unit = useAppSelector(selectUnitSwitcherUnit);
 

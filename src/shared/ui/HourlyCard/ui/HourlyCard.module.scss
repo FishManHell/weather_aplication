@@ -3,7 +3,7 @@
   width: 120px;
   height: 120px;
 
-  &:after {
+  &::after {
     content: "";
     position: absolute;
     left: 0;

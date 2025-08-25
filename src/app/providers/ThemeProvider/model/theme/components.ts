@@ -1,39 +1,31 @@
 import { Theme } from '@mui/joy/styles';
-import type { AlertTypeMap } from "@mui/joy/Alert";
-
+import type { AlertTypeMap } from "@mui/joy/Alert"
 
 export const COMPONENTS = {
-    JoySvgIcon: {
-        styleOverrides: {
-            root: (props: { theme: Theme}) => ({
-                color: props.theme.palette.text.primary,
-            }),
-        },
-    },
     JoyTypography: {
         styleOverrides: {
-            root: (props: { theme: Theme}) => ({
-                color: props.theme.palette.text.primary,
+            root: ({theme}: { theme: Theme}) => ({
+                color: theme.palette.text.primary,
             }),
         },
     },
 
     JoyCard: {
         styleOverrides: {
-            root: (props: { theme: Theme}) => ({
-                background: props.theme.palette.background.card,
-                borderRadius: props.theme.radius.lg
+            root: ({theme}: { theme: Theme}) => ({
+                background: theme.palette.background.card,
+                borderRadius: theme.radius.lg
             }),
         },
     },
     JoyInput: {
         styleOverrides: {
-            root: (props: { theme: Theme}) => ({
-                background: props.theme.palette.background.card,
-                borderRadius: props.theme.radius.lg
+            root: ({theme}: { theme: Theme}) => ({
+                background: theme.palette.background.card,
+                borderRadius: theme.radius.lg
             }),
-            input: (props: {theme: Theme}) => ({
-                color: props.theme.palette.text.primary,
+            input: ({theme}: {theme: Theme}) => ({
+                color: theme.palette.text.primary,
             }),
         }
     },

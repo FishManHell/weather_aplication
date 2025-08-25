@@ -1,8 +1,6 @@
 import cls from "./WeatherCard.module.scss"
 import classNames from "classnames";
-import {Card, SvgIcon, Typography} from "@mui/joy";
-import PlaceIcon from "@mui/icons-material/Place";
-import TemperatureIcon from "shared/assets/icons/Temperature_.svg";
+import {Card, Typography} from "@mui/joy";
 import {Temperature} from "shared/ui/Temperature";
 import {WeatherIcon} from "shared/ui/WeatherIcon";
 import {FormattedDate} from "shared/ui/FormattedDate";
@@ -14,6 +12,9 @@ import {WeatherCardSize, WeatherCardProps} from "../model/types/types";
 import {useFavorite} from "shared/lib/hooks";
 import {memo, useCallback, useState} from "react";
 import {Toast} from "shared/ui/Toast";
+import {MdPlace} from "react-icons/md";
+import {ThemedIcon} from "shared/ui/ThemedIcon";
+import { FaTemperatureEmpty } from "react-icons/fa6";
 
 export const WeatherCard = memo((props: WeatherCardProps) => {
     const {className, city, loading, size = WeatherCardSize.BIG, onRemoveFavorite} = props;
@@ -44,11 +45,14 @@ export const WeatherCard = memo((props: WeatherCardProps) => {
     if (loading) return <WeatherCardSkeleton size={size}/>
 
     return (
-        <Card className={classNames(cls["weather-card"], className, cls[size])}>
+        <Card className={classNames(cls["weather-card"], className, cls[size])} sx={{margin: "20px 0"}}>
             <header className={cls["weather-card-header"]}>
                 <Typography level="h3" className={cls["weather-card-header-title"]}>
                     {city?.name}
-                    <PlaceIcon/>
+                    <ThemedIcon
+                        Icon={MdPlace}
+                        className={cls['weather-card-header-title-icon']}
+                    />
                 </Typography>
             </header>
 
@@ -57,9 +61,7 @@ export const WeatherCard = memo((props: WeatherCardProps) => {
                     <WeatherIcon icon={city?.weather[0].icon} height={90} width={90}/>
                 </section>
                 <section className={cls['weather-card-temp-wrapper']}>
-                    <SvgIcon className={cls["temp-wrapper-temp-icon"]}>
-                        <TemperatureIcon />
-                    </SvgIcon>
+                    <ThemedIcon Icon={FaTemperatureEmpty} className={cls["temp-wrapper-temp-icon"]}/>
                     <Temperature value={Math.round(city?.main?.temp ?? 0)} level={'h1'}/>
                 </section>
             </main>

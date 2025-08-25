@@ -1,11 +1,12 @@
 import cls from "./Search.module.scss"
 import classNames from "classnames";
 import {IconButton, Input} from "@mui/joy";
-import SearchIcon from '@mui/icons-material/Search';
-import ClearIcon from '@mui/icons-material/Clear';
 import {usePlacesWidget} from "react-google-autocomplete";
 import {memo} from "react";
 import {useControlledInput} from "shared/lib/hooks";
+import { MdSearch } from "react-icons/md";
+import { MdClear } from "react-icons/md";
+import {ThemedIcon} from "shared/ui/ThemedIcon";
 
 interface SearchProps {
     className?: string;
@@ -64,10 +65,10 @@ export const Search = memo((props: SearchProps) => {
                 slotProps={{input: { ref}}}
                 className={cls['search-input']}
             />
-            <SearchIcon className={cls['search-input-icon']} sx={{fontSize: "clamp(25px, 4vw, 35px)"}}/>
 
+            <ThemedIcon Icon={MdSearch} className={cls["search-input-icon"]}/>
             <IconButton onClick={reset} className={cls['search-input-icon-reset']} sx={resetStyles}>
-                <ClearIcon/>
+                <ThemedIcon Icon={MdClear} className={cls["search-input-icon-reset-icon"]}/>
             </IconButton>
         </div>
     )

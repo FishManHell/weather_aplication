@@ -1,4 +1,3 @@
-import cls from "./BurgerMenu.module.scss";
 import {useCallback, useState} from "react";
 import {Modal} from "shared/ui/Modal";
 import {Burger} from "widgets/Burger";
@@ -12,8 +11,8 @@ export const BurgerMenu = () => {
 
     return (
         <>
-            <Modal isOpen={isOpen} onClose={onClose} className={cls['burger-navbar']}>
-                <NavbarItems className={cls["burger-navbar-links-container"]}/>
+            <Modal isOpen={isOpen} onClose={onClose} className={'burger-navbar'}>
+                <NavbarItems className={"burger-navbar-links-container"}/>
             </Modal>
             <Burger onToggle={onToggle} isOpen={isOpen} isInverted/>
         </>

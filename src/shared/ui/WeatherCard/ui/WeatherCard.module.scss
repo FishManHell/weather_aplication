@@ -12,7 +12,7 @@
 .medium-card {
   width: 450px;
 
-  @media screen and (max-width: 490px) {
+  @media screen and (width <= 490px) {
     width: 350px;
   }
 }
@@ -37,7 +37,7 @@
   align-items: center;
 
   .temp-wrapper-temp-icon {
-    font-size: 3rem;
+    font-size: 2.5rem;
     line-height: 1;
   }
 
@@ -50,4 +50,8 @@
   display: flex;
   justify-content: space-around;
   text-align: center;
+}
+
+.weather-card-header-title-icon {
+  font-size: clamp(25px, 3vw, 30px);
 }

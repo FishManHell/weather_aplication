@@ -1,4 +1,3 @@
-import cls from "./Date.module.scss"
 import classNames from "classnames";
 import {memo, useCallback, useEffect, useState} from "react";
 
@@ -34,7 +33,7 @@ export const Date = memo((props: DateProps) => {
     }, [date]);
 
     return (
-        <p className={classNames(cls["date"], className)}>
+        <p className={classNames("date", className)}>
             <span>{time}</span>
             <span>pm</span>
         </p>

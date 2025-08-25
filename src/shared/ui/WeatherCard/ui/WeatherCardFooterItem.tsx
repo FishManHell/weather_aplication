@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import {Typography} from "@mui/material";
+import {Typography} from "@mui/joy";
 
 interface FooterContentItemProps {
     className?: string;

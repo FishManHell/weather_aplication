@@ -1,7 +1,7 @@
 import cls from "./TodayPage.module.scss"
 import classNames from "classnames";
 import {Search} from "widgets/Search/ui/Search";
-import {useAppDispatch, useAppSelector, useOnUnmount} from "shared/lib/hooks";
+import {useAppDispatch, useAppSelector, useInitialEffect, useOnUnmount} from "shared/lib/hooks";
 import {
     cityActions,
     fetchCityPosition,
@@ -11,7 +11,7 @@ import {
     selectHourlyByCoords,
     selectHourlyByCoordsLoading
 } from "entities/Today";
-import {useEffect, useRef} from "react";
+import {useRef} from "react";
 import {selectCurrentLocation} from "entities/CurrentLocation";
 import {BigCard} from "shared/ui/WeatherCard";
 import {HourlyCardsWrapper} from "shared/ui/HourlyCard";
@@ -42,7 +42,7 @@ const TodayPage = ({className}: TodayPageProps) => {
         dispatch(hourlyWeatherByCoordsActions.resetHourlyWeatherByCoordsState())
     }
 
-    useEffect(() => {
+    useInitialEffect(() => {
         if (isInitialized.current) return;
 
         const city = getItem<string>("city")

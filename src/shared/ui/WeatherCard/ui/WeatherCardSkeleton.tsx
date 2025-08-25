@@ -13,7 +13,7 @@ export const WeatherCardSkeleton = (props: BigWeatherCardSkeletonProps) => {
     const {className, size = WeatherCardSize.BIG} = props;
 
     return (
-        <Card className={classNames(cls["weather-card"], cls[size], className)}>
+        <Card className={classNames(cls["weather-card"], cls[size], className)} sx={{margin: "20px 0"}}>
             <Skeleton variant="text" width="50%" height={32} />
             <Box display="flex" justifyContent="center" my={2} alignItems="center">
                 <Skeleton variant="circular" width={90} height={90} />

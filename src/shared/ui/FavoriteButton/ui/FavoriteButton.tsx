@@ -1,11 +1,13 @@
 import classNames from "classnames";
-import { styled } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
-import StarIcon from '@mui/icons-material/Star';
-import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import cls from "./FavoriteButton.module.scss"
+import {IconButton, styled} from '@mui/joy';
 import {memo} from "react";
+import {ThemedIcon} from "shared/ui/ThemedIcon";
 
-const MyIconButton = styled(IconButton)(({ theme }) => ({
+import { MdStarBorder } from "react-icons/md";
+import { MdStar } from "react-icons/md";
+
+const MyIconButton = styled(IconButton)(() => ({
     position: 'absolute',
     top: '0.875rem',
     right: '0.5rem',
@@ -28,10 +30,15 @@ export const FavoriteButton = memo((props: FavoriteButtonProps) => {
     return (
         <MyIconButton
             className={classNames("favorite-button", className)}
-            size={'large'}
+            size={"lg"}
             onClick={handleFavoriteToggle}
         >
-            {isFavorite ? <StarIcon/> : <StarOutlineIcon/>}
+            <ThemedIcon
+                ActiveIcon={MdStar}
+                Icon={MdStarBorder}
+                isActive={isFavorite}
+                className={cls['favorite-button-icon']}
+            />
         </MyIconButton>
     );
 });

@@ -1,17 +1,19 @@
 .pac-container, .pac-log {
-  font-family: 'Roboto', sans-serif;
+  font-family: Roboto, sans-serif;
   border-radius: 10px;
-  &:after {
+
+  &::after {
     content: "";
     display: none;
   }
 
   .pac-item {
     cursor: pointer;
-    color: #000000;
+    color: #000;
     font-weight: 600;
     padding: 8px 10px;
     border-top-width: 3px;
+
     &:first-child {
       border-top: none;
       border-top-left-radius: inherit;

@@ -1,4 +1,5 @@
-import {MutableRefObject, useEffect, useRef, useState} from "react";
+import {MutableRefObject, useRef, useState} from "react";
+import {useInitialEffect} from "shared/lib/hooks";
 
 interface UseScrollObserverOptions<T> {
     items: T[];
@@ -7,7 +8,6 @@ interface UseScrollObserverOptions<T> {
     containerRef: MutableRefObject<HTMLDivElement | null>
 }
 
-
 export const useScrollObserver = <T>(
     {items, getId, onItemVisible, containerRef}: UseScrollObserverOptions<T>
 ) => {
@@ -15,7 +15,7 @@ export const useScrollObserver = <T>(
 
     const [loaded, setLoaded] = useState<Set<string>>(new Set());
 
-    useEffect(() => {
+    useInitialEffect(() => {
         const container = containerRef.current;
         if (!container) return;
 

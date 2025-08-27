@@ -6,9 +6,11 @@ import {NavbarWeather} from "../ui/NavbarWeather/NavbarWeather";
 import {ThemeSwitcher} from "shared/ui/ThemeSwitcher";
 import {ResizeContainer} from "shared/ui/ResizeContainer";
 import {BurgerMenu} from "features/BurgerMenu";
+import {DefaultStorybookSizes} from "shared/types";
 
 interface NavbarProps {
     className?: string;
+    storybookSizes?: DefaultStorybookSizes // test version
 }
 
 const BODY_PADDING = 10
@@ -16,12 +18,13 @@ const MIN_SIZE = 650
 
 const MIN_CONTENT_WIDTH = MIN_SIZE - BODY_PADDING * 2;
 
-export const Navbar = ({className}: NavbarProps) => {
+export const Navbar = ({className, storybookSizes}: NavbarProps) => {
     return (
         <ResizeContainer
             refreshMode={'throttle'}
-            refreshRate={450}
+            refreshRate={400}
             className={classNames(cls["navbar"], className)}
+            storybookSizes={storybookSizes}
         >
             {(width) => {
                 return (

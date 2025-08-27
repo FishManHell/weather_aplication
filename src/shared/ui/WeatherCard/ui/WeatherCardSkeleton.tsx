@@ -1,8 +1,8 @@
-import cls from "./WeatherCard.module.scss"
+import cls from "./WeatherCard/WeatherCard.module.scss"
 import classNames from "classnames";
-import {Card, Skeleton} from "@mui/material";
+import {Card, Skeleton} from "@mui/joy";
 import {Box} from "@mui/joy";
-import {WeatherCardSize} from "../model/types/types";
+import {WeatherCardSize} from "../model/types";
 
 interface BigWeatherCardSkeletonProps {
     className?: string;

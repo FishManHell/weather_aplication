@@ -10,7 +10,7 @@ import {DATE_FORMATS} from "helpers/time";
 
 interface SmallWeatherCardProps {
     className?: string;
-    hourlyData: OneCallWeatherHourly;
+    hourlyData?: OneCallWeatherHourly;
     loading?: boolean;
 }
 
@@ -21,16 +21,16 @@ export const HourlyCard = memo((props: SmallWeatherCardProps) => {
         <Card className={classNames(cls["small-weather-card"], className)}>
             <div className={cls["small-weather-card-info-wrapper"]}>
                 <FormattedDate
-                    time={hourlyData.dt}
+                    time={hourlyData?.dt}
                     format={DATE_FORMATS.TIME}
                     level={'title-lg'}
                     className={cls["small-weather-card-info-title"]}
                 />
-                <WeatherIcon icon={hourlyData.weather[0].icon} height={60} width={60}/>
+                <WeatherIcon icon={hourlyData?.weather[0].icon} height={60} width={60}/>
                 <Temperature
                     className={cls["small-weather-card-info-footer"]}
                     level={'title-lg'}
-                    value={hourlyData?.temp}
+                    value={hourlyData?.temp || 0}
                 />
             </div>
         </Card>

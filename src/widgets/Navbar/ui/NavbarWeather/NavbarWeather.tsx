@@ -7,6 +7,7 @@ import {skipToken} from "@reduxjs/toolkit/query";
 import {WeatherIcon} from "shared/ui/WeatherIcon";
 import {useAppSelector} from "shared/lib/hooks";
 import {CustomTypography} from "shared/ui/CustomTypography";
+import {memo} from "react";
 
 const DELAY = 60_000
 
@@ -14,16 +15,23 @@ interface NavbarWeatherProps {
     className?: string;
 }
 
-export const NavbarWeather = ({className}: NavbarWeatherProps) => {
+export const NavbarWeather = memo(({className}: NavbarWeatherProps) => {
     const coordinates = useAppSelector(selectCurrentLocation);
     const errorCoordinates = useAppSelector(selectCurrentLocationError);
 
+    const isStorybook = __PROJECT__ === 'storybook';
     const shouldFetch = coordinates && !errorCoordinates;
 
     const { data: currentCity } = useGetWeatherByCityQuery(
         shouldFetch ? coordinates : skipToken,
-        {pollingInterval: DELAY}
+        {
+            pollingInterval: isStorybook ? 0 : DELAY,
+            refetchOnMountOrArgChange: !isStorybook,
+            refetchOnReconnect: !isStorybook,
+            refetchOnFocus: !isStorybook,
+        }
     );
+
 
     const NavbarWeatherHeader = () => {
         if (errorCoordinates) {
@@ -57,4 +65,4 @@ export const NavbarWeather = ({className}: NavbarWeatherProps) => {
             <Date className={cls['navbar-weather-info-date']} delay={DELAY}/>
         </div>
     );
-};
+});

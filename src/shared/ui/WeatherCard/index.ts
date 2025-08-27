@@ -1,5 +1,5 @@
-import {BigCard} from "./ui/BigCard"
 import {MediumCard} from "./ui/MediumCard"
-import {Favorite} from "./model/types/types"
+import {Favorite} from "./model/types"
+import {BigCard} from "./ui/BigCard"
 
-export {BigCard, MediumCard, Favorite}
+export {MediumCard, BigCard, Favorite}

@@ -1,10 +1,14 @@
 import {Preview} from "@storybook/react";
-import {RouterDecorator, StyleDecorator, ThemeDecorator} from "shared/config/storybook";
+import {RouterDecorator, StyleDecorator, ThemeDecorator} from "shared/config/storybook/decorators";
+import {initialize, mswDecorator} from "msw-storybook-addon";
+
+initialize({ onUnhandledRequest: 'bypass' });
 
 const decorators = [
+    mswDecorator,
     ThemeDecorator,
     StyleDecorator,
-    RouterDecorator
+    RouterDecorator,
 ]
 
 const preview: Preview = {
@@ -12,13 +16,12 @@ const preview: Preview = {
         theme: {
             description: 'Global theme for components',
             toolbar: {
-                title: "Theme",
-                icon: 'circlehollow',
+                icon: "paintbrush",
+                dynamicTitle: true,
                 items: [
-                    { value: "light", title: "Light" },
-                    { value: "dark", title: "Dark" },
+                    { value: "light", left: "☀️", title: "Light mode" },
+                    { value: "dark", left: "🌙", title: "Dark mode" },
                 ],
-                dynamicTitle: true
             },
         },
     },
@@ -27,6 +30,10 @@ const preview: Preview = {
     },
     decorators,
     parameters: {
+        msw: [],
+        viewport: {
+            defaultViewport: 'responsive',
+        },
         layout: 'fullscreen',
         controls: {
             matchers: {

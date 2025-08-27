@@ -1,6 +1,6 @@
 import {OneCallWeatherHourly} from "entities/Today";
-import {HourlyCardSkeleton} from "../ui/HourlyCardSkeleton";
-import {HourlyCard} from "../ui/HourlyCard";
+import {HourlyCardSkeleton} from "../HourlyCardSkeleton";
+import {HourlyCard} from "../HourlyCard/HourlyCard";
 import {memo} from "react";
 
 interface HourlyCardsWrapperProps {

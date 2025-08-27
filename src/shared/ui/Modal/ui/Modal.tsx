@@ -6,7 +6,7 @@ import {ModalOverlayStyles} from "../model/styles/modalOverlay";
 
 interface ModalProps {
     className?: string;
-    isOpen?: boolean;
+    isOpen: boolean;
     onClose?: () => void;
     children: ReactNode;
 }

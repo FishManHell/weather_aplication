@@ -1,10 +1,9 @@
 import {useEffect} from "react";
 
-export function useInitialEffect<T extends unknown[]>(callback: () => void, dependencies?: T) {
+export function useInitialEffect<T extends unknown[]>(callback: () => void | (() => void), dependencies?: T) {
     useEffect(() => {
         if (__PROJECT__ !== "storybook") {
-            callback()
+            return callback();
         }
-        //eslint-disable-next-line
     }, dependencies);
 }

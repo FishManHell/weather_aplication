@@ -1,6 +1,6 @@
-import cls from "./HourlyCard.module.scss"
+import cls from "./HourlyCard/HourlyCard.module.scss"
 import classNames from "classnames";
-import {Card, Skeleton} from "@mui/material";
+import {Card, Skeleton} from "@mui/joy";
 
 interface SmallWeatherCardSkeletonProps {
     className?: string;

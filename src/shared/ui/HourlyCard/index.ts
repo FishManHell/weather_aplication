@@ -1,1 +1,1 @@
-export {HourlyCardsWrapper} from "./ui/HourlyCardsWrapper"
+export {HourlyCardsWrapper} from "./ui/HourlyCardsWrapper/HourlyCardsWrapper"

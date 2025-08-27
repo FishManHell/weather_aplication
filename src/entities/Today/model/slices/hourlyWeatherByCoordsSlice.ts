@@ -26,12 +26,6 @@ const hourlyWeatherByCoordsSlice = createSlice({
                     .filter((hour) => {
                         return new Date(hour.dt * 1000).getHours() % 3 === 0
                     });
-
-                console.log(payload.hourly
-                    .slice(0, 24)
-                    .filter((hour) => {
-                        return new Date(hour.dt * 1000).getHours() % 3 === 0
-                    }))
             })
             .addCase(fetchHourlyWeatherByCoords.rejected, (state, error) => {
                 state.isLoading = false;

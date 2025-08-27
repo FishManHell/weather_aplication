@@ -5,10 +5,10 @@ import {Temperature} from "shared/ui/Temperature";
 import {WeatherIcon} from "shared/ui/WeatherIcon";
 import {FormattedDate} from "shared/ui/FormattedDate";
 import {DATE_FORMATS} from "helpers/time";
-import {WeatherCardFooterItem} from "./WeatherCardFooterItem";
+import {WeatherCardFooterItem} from "../WeatherCardFooterItem";
 import {FavoriteButton} from "shared/ui/FavoriteButton";
-import {WeatherCardSkeleton} from "./WeatherCardSkeleton";
-import {WeatherCardSize, WeatherCardProps} from "../model/types/types";
+import {WeatherCardSkeleton} from "../WeatherCardSkeleton";
+import {WeatherCardSize, WeatherCardProps} from "../../model/types";
 import {useFavorite} from "shared/lib/hooks";
 import {memo, useCallback, useState} from "react";
 import {Toast} from "shared/ui/Toast";
@@ -25,9 +25,9 @@ export const WeatherCard = memo((props: WeatherCardProps) => {
     const {isFavorite, unSubscribe, subscribe} = useFavorite(String(city?.id), onRemoveFavorite);
 
     const footerItems: Record<string, string>[] = [
-        { name: 'Humidity', value: `${city?.main.humidity}%`},
+        { name: 'Humidity', value: `${city?.main?.humidity}%`},
         { name: 'Visibility', value: `${(city?.visibility ?? 0) / 1000}km`},
-        { name: 'Air Pressure', value: `${city?.main.pressure}hPa` },
+        { name: 'Air Pressure', value: `${city?.main?.pressure}hPa` },
         { name: 'Wind', value: `${((city?.wind?.speed ?? 0) * 2.23694).toFixed(1)}mph`},
     ];
 
@@ -58,7 +58,7 @@ export const WeatherCard = memo((props: WeatherCardProps) => {
 
             <main className={cls["weather-card-main-container"]}>
                 <section>
-                    <WeatherIcon icon={city?.weather[0].icon} height={90} width={90}/>
+                    <WeatherIcon icon={city?.weather?.[0].icon} height={90} width={90}/>
                 </section>
                 <section className={cls['weather-card-temp-wrapper']}>
                     <ThemedIcon Icon={FaTemperatureEmpty} className={cls["temp-wrapper-temp-icon"]}/>
@@ -79,10 +79,7 @@ export const WeatherCard = memo((props: WeatherCardProps) => {
                     )
                 })}
             </footer>
-            <FavoriteButton
-                handleFavoriteToggle={handleFavoriteToggle}
-                isFavorite={isFavorite}
-            />
+            <FavoriteButton handleFavoriteToggle={handleFavoriteToggle} isFavorite={isFavorite}/>
             <Toast
                 open={isOpenToast}
                 onClose={onCloseToast}
